@@ -2,7 +2,7 @@
 Contributors: viralmehta
 Tags: fields, metabox, custom fields, taxonomy fields, user profile
 Requires at least: 6.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 8.0
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -12,7 +12,7 @@ The most flexible WordPress fields framework. Add custom fields to Posts, Terms,
 
 == Description ==
 
-snfs renders field groups anywhere in WordPress admin:
+swfk renders field groups anywhere in WordPress admin:
 - Post edit screens
 - Taxonomy term edit/add  
 - User profile
@@ -20,7 +20,7 @@ snfs renders field groups anywhere in WordPress admin:
 
 == Installation ==
 
-1. Upload `snfs` to `/wp-content/plugins/`
+1. Upload `swfk` to `/wp-content/plugins/`
 2. Activate the plugin
 3. Create field groups in Swastikaa Fieldkit → Fields
 4. Assign to contexts (Post Types, Taxonomies, etc.)

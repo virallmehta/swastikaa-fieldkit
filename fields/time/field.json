@@ -1,0 +1,5 @@
+{
+  "type": "time",
+  "class": "SNFS_Field_Time",
+  "label": "Time"
+}

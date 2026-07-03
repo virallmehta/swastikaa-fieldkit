@@ -1,0 +1,5 @@
+{
+  "type": "datetime",
+  "class": "SNFS_Field_Datetime",
+  "label": "Date Time"
+}

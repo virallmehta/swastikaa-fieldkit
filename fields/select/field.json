@@ -1,0 +1,5 @@
+{
+  "type": "select",
+  "class": "SNFS_Field_Select",
+  "label": "Select"
+}

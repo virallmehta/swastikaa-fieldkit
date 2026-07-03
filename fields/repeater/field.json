@@ -1,0 +1,5 @@
+{
+  "type": "repeater",
+  "class": "SNFS_Field_Repeater",
+  "label": "Repeater"
+}

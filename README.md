@@ -3,9 +3,9 @@
 [![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/virallmehta/swastikaa-fieldkit)
 [![PHP](https://img.shields.io/badge/php-8.0%2B-purple)](https://www.php.net)
 [![WordPress](https://img.shields.io/badge/wordpress-6.0%2B-21759b)](https://wordpress.org)
-[![License](https://img.shields.io/github/license/virallmehta/swfk)](LICENSE)
-[![Issues](https://img.shields.io/github/issues/virallmehta/swfk)](https://github.com/virallmehta/swfk/issues)
-[![Last Commit](https://img.shields.io/github/last-commit/virallmehta/swfk)](https://github.com/virallmehta/swfk/commits/main)
+[![License](https://img.shields.io/github/license/virallmehta/swastikaa-fieldkit)](LICENSE)
+[![Issues](https://img.shields.io/github/issues/virallmehta/swastikaa-fieldkit)](https://github.com/virallmehta/swastikaa-fieldkit/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/virallmehta/swastikaa-fieldkit)](https://github.com/virallmehta/swastikaa-fieldkit/commits/main)
 
 A lightweight, developer-friendly custom fields plugin for WordPress — built by [Viral Mehta](https://profiles.wordpress.org/viralmehta/).
 
@@ -124,7 +124,7 @@ swfk_the_user_field( 'field_name', $user, $default );
 
 ## REST API
 
-All SwastiNexus Fields Studio custom fields are automatically exposed via the WordPress REST API.
+All custom fields are automatically exposed via the WordPress REST API.
 
 **Example:**
 ```
@@ -204,8 +204,8 @@ swastikaa-fieldkit/
 
 Pull requests are welcome. For major changes please open an issue first.
 
-- [Report a Bug](https://github.com/virallmehta/swfk/issues/new?template=bug-report.md)
-- [Request a Feature](https://github.com/virallmehta/swfk/issues/new?template=feature-request.md)
+- [Report a Bug](https://github.com/virallmehta/swastikaa-fieldkit/issues/new?template=bug-report.md)
+- [Request a Feature](https://github.com/virallmehta/swastikaa-fieldkit/issues/new?template=feature-request.md)
 
 ---
 
@@ -217,4 +217,4 @@ GPL v2 or later — see [LICENSE](LICENSE)
 
 ## Author
 
-Built by [Viral Mehta](https://profiles.wordpress.org/viralmehta/)# swastikaa-fieldkit
+Built by [Viral Mehta](https://profiles.wordpress.org/viralmehta/) # swastikaa-fieldkit

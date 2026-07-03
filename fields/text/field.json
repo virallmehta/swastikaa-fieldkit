@@ -1,0 +1,8 @@
+{
+  "type": "text",
+  "label": "Text",
+  "class": "SNFS_Field_Text",
+  "category": "basic",
+  "supports": ["post", "term", "user","options"],
+  "pro": false
+}

@@ -1,0 +1,11 @@
+/* SwastiNexus Fields Studio: Text Field */
+
+.sf-field-text input[type="text"] {
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sf-field-text input[type="text"]:focus {
+    border-color: #2180CD;
+    box-shadow: 0 0 0 3px rgba(33, 128, 205, 0.1);
+    outline: none;
+}

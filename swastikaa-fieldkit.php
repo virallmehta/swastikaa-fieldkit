@@ -38,6 +38,11 @@ define( 'SWFK_PLUGIN_URL',   plugin_dir_url( __FILE__ ) );
 /** @since 1.0.0 */
 define( 'SWFK_INCLUDES_DIR', SWFK_PLUGIN_DIR . 'includes/' );
 
+// Load debug logging (only if WP_DEBUG)
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+    require_once SWFK_PLUGIN_DIR . 'debug.php';
+}
+
 // ── Interfaces ────────────────────────────────────────────────────────────────
 
 require_once SWFK_PLUGIN_DIR . 'includes/interface/interface-swfk-context.php';

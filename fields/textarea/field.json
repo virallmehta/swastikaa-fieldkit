@@ -1,0 +1,5 @@
+{
+    "type":  "textarea",
+    "class": "SNFS_Field_Textarea",
+    "label": "Textarea"
+}
