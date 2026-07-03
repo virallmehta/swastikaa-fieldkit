@@ -27,58 +27,58 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'SWFK_VERSION',      '1.0.0' );
 
 /** @since 1.0.0 */
-define( 'SNFS_PLUGIN_FILE',  __FILE__ );
+define( 'SWFK_PLUGIN_FILE',  __FILE__ );
 
 /** @since 1.0.0 */
-define( 'SNFS_PLUGIN_DIR',   plugin_dir_path( __FILE__ ) );
+define( 'SWFK_PLUGIN_DIR',   plugin_dir_path( __FILE__ ) );
 
 /** @since 1.0.0 */
-define( 'SNFS_PLUGIN_URL',   plugin_dir_url( __FILE__ ) );
+define( 'SWFK_PLUGIN_URL',   plugin_dir_url( __FILE__ ) );
 
 /** @since 1.0.0 */
-define( 'SNFS_INCLUDES_DIR', SNFS_PLUGIN_DIR . 'includes/' );
+define( 'SWFK_INCLUDES_DIR', SWFK_PLUGIN_DIR . 'includes/' );
 
 // ── Interfaces ────────────────────────────────────────────────────────────────
 
-require_once SNFS_PLUGIN_DIR . 'includes/interface/interface-snfs-context.php';
-require_once SNFS_PLUGIN_DIR . 'includes/interface/interface-snfs-storage.php';
-require_once SNFS_PLUGIN_DIR . 'includes/interface/interface-snfs-location-rule.php';
+require_once SWFK_PLUGIN_DIR . 'includes/interface/interface-swfk-context.php';
+require_once SWFK_PLUGIN_DIR . 'includes/interface/interface-swfk-storage.php';
+require_once SWFK_PLUGIN_DIR . 'includes/interface/interface-swfk-location-rule.php';
 
 // ── Storage ───────────────────────────────────────────────────────────────────
 
-require_once SNFS_PLUGIN_DIR . 'includes/storage/class-snfs-post-meta-storage.php';
-require_once SNFS_PLUGIN_DIR . 'includes/storage/class-snfs-term-meta-storage.php';
-require_once SNFS_PLUGIN_DIR . 'includes/storage/class-snfs-user-meta-storage.php';
-require_once SNFS_PLUGIN_DIR . 'includes/storage/class-snfs-options-storage.php';
+require_once SWFK_PLUGIN_DIR . 'includes/storage/class-swfk-post-meta-storage.php';
+require_once SWFK_PLUGIN_DIR . 'includes/storage/class-swfk-term-meta-storage.php';
+require_once SWFK_PLUGIN_DIR . 'includes/storage/class-swfk-user-meta-storage.php';
+require_once SWFK_PLUGIN_DIR . 'includes/storage/class-swfk-options-storage.php';
 
 // ── Context ───────────────────────────────────────────────────────────────────
 
-require_once SNFS_PLUGIN_DIR . 'includes/context/class-snfs-post-context.php';
-require_once SNFS_PLUGIN_DIR . 'includes/context/class-snfs-term-context.php';
-require_once SNFS_PLUGIN_DIR . 'includes/context/class-snfs-user-context.php';
-require_once SNFS_PLUGIN_DIR . 'includes/context/class-snfs-options-context.php';
+require_once SWFK_PLUGIN_DIR . 'includes/context/class-swfk-post-context.php';
+require_once SWFK_PLUGIN_DIR . 'includes/context/class-swfk-term-context.php';
+require_once SWFK_PLUGIN_DIR . 'includes/context/class-swfk-user-context.php';
+require_once SWFK_PLUGIN_DIR . 'includes/context/class-swfk-options-context.php';
 
 // ── Core ──────────────────────────────────────────────────────────────────────
 
-require_once SNFS_PLUGIN_DIR . 'includes/core/class-snfs-field-registry.php';
-require_once SNFS_PLUGIN_DIR . 'includes/core/class-snfs-assets-manager.php';
-require_once SNFS_PLUGIN_DIR . 'includes/core/class-snfs-field-loader.php';
-require_once SNFS_PLUGIN_DIR . 'includes/core/class-snfs-field-base.php';
-require_once SNFS_PLUGIN_DIR . 'includes/core/class-snfs-template-registry.php';
-require_once SNFS_PLUGIN_DIR . 'includes/core/class-snfs-template-loader.php';
+require_once SWFK_PLUGIN_DIR . 'includes/core/class-swfk-field-registry.php';
+require_once SWFK_PLUGIN_DIR . 'includes/core/class-swfk-assets-manager.php';
+require_once SWFK_PLUGIN_DIR . 'includes/core/class-swfk-field-loader.php';
+require_once SWFK_PLUGIN_DIR . 'includes/core/class-swfk-field-base.php';
+require_once SWFK_PLUGIN_DIR . 'includes/core/class-swfk-template-registry.php';
+require_once SWFK_PLUGIN_DIR . 'includes/core/class-swfk-template-loader.php';
 
 // ── Rules ─────────────────────────────────────────────────────────────────────
 
-require_once SNFS_PLUGIN_DIR . 'includes/rules/class-snfs-general-rule.php';
+require_once SWFK_PLUGIN_DIR . 'includes/rules/class-swfk-general-rule.php';
 
 // ── Plugin & Admin ────────────────────────────────────────────────────────────
 
-require_once SNFS_PLUGIN_DIR . 'includes/core/class-snfs-field-group-repository.php';
-require_once SNFS_PLUGIN_DIR . 'includes/class-snfs-plugin.php';
-require_once SNFS_PLUGIN_DIR . 'admin/class-snfs-admin.php';
-require_once SNFS_PLUGIN_DIR . 'helpers/snfs-helpers.php';
-require_once SNFS_PLUGIN_DIR . 'includes/core/class-snfs-rest-api.php';
+require_once SWFK_PLUGIN_DIR . 'includes/core/class-swfk-field-group-repository.php';
+require_once SWFK_PLUGIN_DIR . 'includes/class-swfk-plugin.php';
+require_once SWFK_PLUGIN_DIR . 'admin/class-swfk-admin.php';
+require_once SWFK_PLUGIN_DIR . 'helpers/swfk-helpers.php';
+require_once SWFK_PLUGIN_DIR . 'includes/core/class-swfk-rest-api.php';
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
-SNFS_Plugin();
+SWFK_Plugin();

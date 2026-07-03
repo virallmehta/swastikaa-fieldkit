@@ -1,0 +1,410 @@
+                    Your Field Attributes
+/**
+ * SwastiNexus Fields Studio admin UI styles.
+ */
+ /* ===== CSS CUSTOM PROPERTIES ===== */
+:root {
+  --swfk-border-radius: 6px;
+  --swfk-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  --swfk-box-shadow-hover: 0 2px 8px rgba(0,0,0,0.15);
+  --swfk-primary: #0073aa;
+  --swfk-primary-dark: #005a87;
+  --swfk-danger: #dc3545;
+  --swfk-danger-dark: #c82333;
+  --swfk-bg-light: #f6f7f7;
+  --swfk-border: #dcdcde;
+  --swfk-text-muted: #646970;
+}
+
+/* ===== Field Builder ===== */
+#swfk-field-builder {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: var(--swfk-border-radius);
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.swfk-fields-grid { 
+    display: grid; 
+    gap: 1rem; 
+    margin: 1rem 0; 
+}
+
+.swfk-field-row {
+    background: #fff;
+    border: 1px solid var(--swfk-border);
+    border-radius: var(--swfk-border-radius);
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: var(--swfk-box-shadow);
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.swfk-field-row:hover {
+    box-shadow: var(--swfk-box-shadow-hover);
+    border-color: var(--swfk-primary);
+}
+
+.swfk-field-header {
+  background: var(--swfk-bg-light);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #c3c4c7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #1d2327;
+}
+
+.swfk-field-header strong {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+.swfk-field-title {
+    flex: 1;
+    font-size: 14px;
+    color: #1d2327;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.swfk-field-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.swfk-field-header.swfk-field-toggle.button-link {
+    padding: 4px 8px !important;
+    margin: 0 !important;
+    min-height: auto !important;
+    height: 30px;
+    border-radius: 4px;
+    transition: all .2s ease;
+}
+
+.swfk-field-toggle:hover {
+    background: rgba(0,0,0,.05);
+}
+
+.swfk-field-remove.button-link-delete {
+    color: #d63638 !important;
+    padding: 4px 8px !important;
+}
+
+.swfk-field-handle {
+    font-size: 1.2rem;
+    color: var(--swfk-text-muted);
+    cursor: grab;
+}
+.swfk-field-handle:active {
+  cursor: grabbing;
+}
+
+.swfk-row-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 2fr 1fr;
+  gap: 1rem;
+  align-items: end;
+}
+
+.swfk-col,.swfk-col-auto {
+  display: flex;
+  flex-direction: column;
+}
+
+.swfk-col label {
+  font-size: 12px;
+  color: var(--swfk-text-muted);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.swfk-col-auto {
+  grid-column: -1;
+}
+
+.swfk-field-body {
+    padding: 1rem;
+    border-top: 1px solid var(--swfk-border); 
+}
+.swfk-field-body.collapsed {
+    display: none;
+}
+
+.swfk-field-body p {
+    margin: 0 0 15px 0;
+}
+
+.swfk-field-body p:last-child {
+    margin-bottom: 0;
+}
+
+.swfk-field-body label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+}
+
+.swfk-field-body input[type="text"],
+.swfk-field-body input[type="number"],
+.swfk-field-body input[type="email"],
+.swfk-field-body input[type="url"],
+.swfk-field-body select,
+.swfk-field-body textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: inherit;
+    background-color: #fafafa;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.swfk-field-body input[type="text"]:focus,
+.swfk-field-body input[type="number"]:focus,
+.swfk-field-body input[type="email"]:focus,
+.swfk-field-body input[type="url"]:focus,
+.swfk-field-body select:focus,
+.swfk-field-body textarea:focus {
+    border-color: #0073aa;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1);
+}
+
+.swfk-field-body input[type="checkbox"] {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.swfk-field-body input[type="checkbox"] + label {
+    display: inline;
+    margin: 0;
+    font-weight: 400;
+}
+
+.swfk-field-args {
+    padding: 10px;
+    background: #f9f9f9;
+    border-left: 3px solid #0073aa;
+    border-radius: 2px;
+}
+
+/* ===== Location Rules ===== */
+.swfk-location-rules {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: var(--swfk-border-radius);
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.swfk-rule-row {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    margin: 10px 0;
+    border-radius: var(--swfk-border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    /* align-items: center; */
+    background: #f9f9f9;
+    transition: all 0.2s ease;
+}
+
+.swfk-rule-row:hover {
+    background: #fff;
+    border-color: #0073aa;
+}
+
+.swfk-rule-row select,
+.swfk-rule-row input[type="text"] {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 13px;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.swfk-rule-row select:focus,
+.swfk-rule-row input[type="text"]:focus {
+    border-color: #0073aa;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1);
+}
+
+.swfk-rule-row select {
+    flex: 1.2;
+    min-width: 120px;
+}
+
+.swfk-rule-row input[type="text"] {
+    flex: 1;
+}
+
+.swfk-remove-rule {
+    background: #dc3545 !important;
+    color: white !important;
+    border: none !important;
+    padding: 6px 12px !important;
+    border-radius: 3px !important;
+    cursor: pointer !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+    transition: all 0.2s ease !important;
+}
+
+.swfk-remove-rule:hover {
+    background: #c82333 !important;
+}
+
+/* ===== Buttons ===== */
+#swfk-add-field,
+#swfk-add-rule {
+    margin-top: 12px;
+    background: #0073aa !important;
+    border: 1px solid #0073aa !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+#swfk-add-field:hover,
+#swfk-add-rule:hover {
+    background: #005a87 !important;
+    border-color: #005a87 !important;
+}
+
+.swfk-remove-field {
+    background: #dc3545 !important;
+    color: white !important;
+    border: none !important;
+    padding: 5px 10px !important;
+    border-radius: 3px !important;
+    font-size: 12px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.swfk-remove-field:hover {
+    background: #c82333 !important;
+}
+
+/* ===== Runtime Fields (Post Edit) ===== */
+.swfk-field-group {
+    border: 1px solid #ddd !important;
+    padding: 15px !important;
+    border-radius: 6px !important;
+    margin-bottom: 15px !important;
+    background: #fff !important;
+}
+
+.swfk-field-group legend {
+    padding: 0 10px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    font-size: 14px !important;
+}
+
+.swfk-field-wrapper {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    border-left: 3px solid #0073aa;
+}
+
+.swfk-field-wrapper label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+}
+
+.swfk-field-wrapper input[type="text"],
+.swfk-field-wrapper input[type="number"],
+.swfk-field-wrapper input[type="email"],
+.swfk-field-wrapper input[type="url"],
+.swfk-field-wrapper input[type="date"],
+.swfk-field-wrapper input[type="time"],
+.swfk-field-wrapper input[type="color"],
+.swfk-field-wrapper select,
+.swfk-field-wrapper textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: inherit;
+    background: #fff;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.swfk-field-wrapper input:focus,
+.swfk-field-wrapper select:focus,
+.swfk-field-wrapper textarea:focus {
+    border-color: #0073aa;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1);
+}
+
+.swfk-field-wrapper .description {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .swfk-field-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .swfk-rule-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .swfk-rule-row select,
+    .swfk-rule-row input[type="text"],
+    .swfk-remove-rule {
+        width: 100% !important;
+    }
+}
+
+/* ===== Utilities ===== */
+.swfk-placeholder {
+    opacity: 0.5;
+    background: #f5f5f5;
+    border: 2px dashed #ddd;
+}
+
+.notice-info p,
+.notice-error p,
+.notice-warning p {
+    margin: 10px 0;
+}
+
+#swfk-field-builder p.description,
+#swfk-location-rules p.description {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
