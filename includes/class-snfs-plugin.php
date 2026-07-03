@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SWFK_Plugin {
+class SNFS_Plugin {
     /**
      * Single instance.
      */
@@ -34,7 +34,7 @@ class SWFK_Plugin {
     private function boot(): void {
         // 1. Core systems (always).
         add_action( 'init', [ $this, 'register_cpt' ] );
-        add_action( 'init', [ SWFK_Field_Registry::class, 'boot' ], 6 );
+        add_action( 'init', [ SNFS_Field_Registry::class, 'boot' ], 6 );
         // add_action( 'init', [ SF_Location_Rule_Registry::class, 'boot_core' ], 5 );
 
         // 2. Auto-discover fields.
@@ -42,12 +42,12 @@ class SWFK_Plugin {
 
         // 3. Admin only.
         if ( is_admin() ) {
-            new SWFK_Admin();  // Handles metaboxes, saves, assets.
+            new SNFS_Admin();  // Handles metaboxes, saves, assets.
         }
 
         // 4. Activation/deactivation.
-        register_activation_hook( SWFK_PLUGIN_FILE, [ $this, 'activate' ] );
-        register_deactivation_hook( SWFK_PLUGIN_FILE, [ $this, 'deactivate' ] );
+        register_activation_hook( SNFS_PLUGIN_FILE, [ $this, 'activate' ] );
+        register_deactivation_hook( SNFS_PLUGIN_FILE, [ $this, 'deactivate' ] );
     }
 
     /**
@@ -55,7 +55,7 @@ class SWFK_Plugin {
      */
     public function load_fields(): void {
  
-        SWFK_Field_Loader::load( SWFK_PLUGIN_DIR . 'fields' );
+        SNFS_Field_Loader::load( SNFS_PLUGIN_DIR . 'fields' );
   
     }
 
@@ -63,7 +63,7 @@ class SWFK_Plugin {
      * Field Group CPT.
      */
     public function register_cpt(): void {
-        register_post_type( 'swfk_field_group', [
+        register_post_type( 'snfs_field_group', [
             'label'               => 'SwastiNexus Fields Studio Groups',
             'labels'              => [
                 'name'          => 'SwastiNexus Fields Studio Groups',
@@ -78,7 +78,7 @@ class SWFK_Plugin {
             'menu_icon'           => 'dashicons-feedback',
             'capability_type'     => 'post',
             'map_meta_cap'        => true,
-            'rewrite' => array( 'slug' => 'swfk' )
+            'rewrite' => array( 'slug' => 'snfs' )
         ] );
 
         flush_rewrite_rules(); // Only during activation ideally.
@@ -96,6 +96,6 @@ class SWFK_Plugin {
 }
 
 // Global instance.
-function SWFK_Plugin(): SWFK_Plugin {
-    return SWFK_Plugin::instance();
+function SNFS_Plugin(): SNFS_Plugin {
+    return SNFS_Plugin::instance();
 }
