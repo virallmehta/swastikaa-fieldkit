@@ -3,7 +3,7 @@
  * Caches field template paths for fast lookup.
  * Maintains a map of field type slugs to their template.php file paths.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Template_Registry {
+class SWFK_Template_Registry {
     /**
      * Field type → template path map.
      *

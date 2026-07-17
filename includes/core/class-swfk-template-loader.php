@@ -3,7 +3,7 @@
  * Loads field templates from field directories.
  * Supports theme overrides and falls back to the plugin field directory.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Template_Loader {
-    const TEMPLATE_DIR = SNFS_PLUGIN_DIR . 'fields/';  // Root fields dir
+class SWFK_Template_Loader {
+    const TEMPLATE_DIR = SWFK_PLUGIN_DIR . 'fields/';  // Root fields dir
 
     /**
      * Load field template + data (theme overrides supported).

@@ -3,7 +3,7 @@
  * Manages per-field-type CSS/JS asset registration and enqueueing.
  * Each field type may ship its own stylesheet and script inside its /assets directory.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Assets_Manager {
+class SWFK_Assets_Manager {
     protected static array $assets = [];
     
     public static function register( string $type, string $dir ): void {
@@ -27,14 +27,14 @@ class SNFS_Assets_Manager {
 
         if ( file_exists( "$base/$type.css" ) ) {
             wp_enqueue_style(
-                "snfs-field-$type",
+                "swfk-field-$type",
                 plugins_url( "$base/$type.css" )
             );
         }
 
         if ( file_exists( "$base/$type.js" ) ) {
             wp_enqueue_script(
-                "snfs-field-$type",
+                "swfk-field-$type",
                 plugins_url( "$base/$type.js" ),
                 ['jquery'],
                 false,

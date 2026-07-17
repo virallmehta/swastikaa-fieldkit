@@ -1,10 +1,10 @@
 <?php
 /**
- * Exposes SwastiNexus Fields Studio custom fields via the WordPress REST API.
+ * Exposes custom fields via the WordPress REST API.
  * Registers REST fields for post types, taxonomies, and users based on
  * active field group location rules.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -12,18 +12,18 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Rest_Api {
+class SWFK_Rest_Api {
 
     public function __construct() {
         add_action( 'rest_api_init', [ $this, 'register_fields' ] );
     }
 
     public function register_fields(): void {
-        $groups = SNFS_Field_Group_Repository::get_all();
+        $groups = SWFK_Field_Group_Repository::get_all();
 
         foreach ( $groups as $group ) {
-            $meta   = get_post_meta( $group->ID, 'snfs_fields', true );
-            $rules  = get_post_meta( $group->ID, 'snfs_location_rules', true );
+            $meta   = get_post_meta( $group->ID, 'swfk_fields', true );
+            $rules  = get_post_meta( $group->ID, 'swfk_location_rules', true );
             $fields = is_array( $meta )  ? $meta  : [];
             $rules  = is_array( $rules ) ? $rules : [];
 
@@ -50,8 +50,8 @@ class SNFS_Rest_Api {
 
     private function register_for_post_type( string $post_type, array $fields ): void {
         foreach ( $fields as $field ) {
-            $meta_key = 'snfs_' . ( $field['name'] ?? '' );
-            if ( ! $meta_key || $meta_key === 'snfs_' ) continue;
+            $meta_key = 'swfk_' . ( $field['name'] ?? '' );
+            if ( ! $meta_key || $meta_key === 'swfk_' ) continue;
 
             register_rest_field(
                 $post_type,
@@ -73,8 +73,8 @@ class SNFS_Rest_Api {
 
     private function register_for_taxonomy( string $taxonomy, array $fields ): void {
         foreach ( $fields as $field ) {
-            $meta_key = 'snfs_' . ( $field['name'] ?? '' );
-            if ( ! $meta_key || $meta_key === 'snfs_' ) continue;
+            $meta_key = 'swfk_' . ( $field['name'] ?? '' );
+            if ( ! $meta_key || $meta_key === 'swfk_' ) continue;
 
             register_term_meta(
                 $taxonomy,
@@ -95,8 +95,8 @@ class SNFS_Rest_Api {
 
     private function register_for_users( array $fields ): void {
         foreach ( $fields as $field ) {
-            $meta_key = 'snfs_' . ( $field['name'] ?? '' );
-            if ( ! $meta_key || $meta_key === 'snfs_' ) continue;
+            $meta_key = 'swfk_' . ( $field['name'] ?? '' );
+            if ( ! $meta_key || $meta_key === 'swfk_' ) continue;
 
             register_meta(
                 'user',
@@ -167,4 +167,4 @@ class SNFS_Rest_Api {
         }
     }
 }
-new SNFS_Rest_Api();
+new SWFK_Rest_Api();

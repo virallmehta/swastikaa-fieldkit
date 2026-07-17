@@ -4,7 +4,7 @@
  * Provides static helpers to query field group CPT posts, their fields,
  * and location rules.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Field_Group_Repository {
+class SWFK_Field_Group_Repository {
 
     protected static array $group_cache = [];
     protected static array $meta_cache = [];
@@ -20,10 +20,10 @@ class SNFS_Field_Group_Repository {
     /**
      * Return all published field groups whose location rules match $context.
      *
-     * @param SNFS_Context_Interface $context
+     * @param SWFK_Context_Interface $context
      * @return array  Keyed by group post ID: [ group_id => ['post'=>WP_Post, 'fields'=>[], 'rules'=>[]] ]
      */
-    public static function get_for_context( SNFS_Context_Interface $context ): array {
+    public static function get_for_context( SWFK_Context_Interface $context ): array {
         // Cache key.
         $cache_key = 'groups_' . $context->get_type() . '_' . $context->get_id();
         
@@ -34,7 +34,7 @@ class SNFS_Field_Group_Repository {
         $groups = self::get_all();
 
         $matched = [];
-        $matcher = new SNFS_General_Rule();
+        $matcher = new SWFK_General_Rule();
 
         foreach ( self::get_all() as $group ) {
             $meta = self::get_group_meta( $group->ID );
@@ -64,12 +64,12 @@ class SNFS_Field_Group_Repository {
 
     public static function get( int $group_id ): ?object {
         $group = get_post( $group_id );
-        return ( $group && $group->post_type === 'snfs_field_group' ) ? $group : null;
+        return ( $group && $group->post_type === 'swfk_field_group' ) ? $group : null;
     }
 
     public static function get_all(): array {
         return get_posts( [
-            'post_type'      => 'snfs_field_group',
+            'post_type'      => 'swfk_field_group',
             'posts_per_page' => -1,
             'post_status'    => 'publish',
             'no_found_rows'  => true,
@@ -77,7 +77,7 @@ class SNFS_Field_Group_Repository {
     }
 
     public static function get_context_type( int $group_id ): string {
-        $type = get_post_meta( $group_id, 'snfs_location_rules', true );
+        $type = get_post_meta( $group_id, 'swfk_location_rules', true );
         $context_type = "";
         foreach ( $type as $key ) {
             $context_type = $key['type'];
@@ -90,8 +90,8 @@ class SNFS_Field_Group_Repository {
             return self::$meta_cache[ $group_id ];
         }
 
-        $fields = get_post_meta( $group_id, 'snfs_fields', true );
-        $rules  = get_post_meta( $group_id, 'snfs_location_rules', true );
+        $fields = get_post_meta( $group_id, 'swfk_fields', true );
+        $rules  = get_post_meta( $group_id, 'swfk_location_rules', true );
 
         self::$meta_cache[ $group_id ] = [
             'fields' => is_array( $fields ) ? $fields : [],

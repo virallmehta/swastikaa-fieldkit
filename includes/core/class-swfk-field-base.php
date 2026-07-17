@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-abstract class SNFS_Field_Base {
+abstract class SWFK_Field_Base {
 
     // ── Identity ──────────────────────────────────────────────────────────────
 
@@ -25,7 +25,7 @@ abstract class SNFS_Field_Base {
     /** @var string Human-readable label shown in admin. */
     protected string $label;
 
-    /** @var string DB meta key derived from name. e.g. 'snfs_hero_title'. */
+    /** @var string DB meta key derived from name. e.g. 'swfk_hero_title'. */
     protected string $meta_key;
 
     // ── Config ────────────────────────────────────────────────────────────────
@@ -45,9 +45,9 @@ abstract class SNFS_Field_Base {
      * Where this field lives.
      * Provides get_id(), get_type(), and the correct storage driver.
      *
-     * @var SNFS_Context_Interface|null
+     * @var SWFK_Context_Interface|null
      */
-    protected ?SNFS_Context_Interface $context = null;
+    protected ?SWFK_Context_Interface $context = null;
 
     /**
      * The numeric record ID extracted from the context for convenience.
@@ -73,13 +73,13 @@ abstract class SNFS_Field_Base {
      * @param string                    $name     Field name / programmatic key.
      * @param string                    $label    Human-readable label.
      * @param array                     $args     Config overrides (merged with defaults).
-     * @param SNFS_Context_Interface|null $context  Where this field is being rendered.
+     * @param SWFK_Context_Interface|null $context  Where this field is being rendered.
      */
     public function __construct(
         string $name,
         string $label,
         array $args = [],
-        ?SNFS_Context_Interface $context = null
+        ?SWFK_Context_Interface $context = null
     ) {
         $this->name     = sanitize_key( $name );
         $this->label    = $label;
@@ -110,10 +110,10 @@ abstract class SNFS_Field_Base {
 
     /**
      * Build the storage meta key.
-     * Default: 'snfs_{name}'.  Override for a different prefix or format.
+     * Default: 'swfk_{name}'.  Override for a different prefix or format.
      */
     protected function build_meta_key(): string {
-        return 'snfs_' . $this->name;
+        return 'swfk_' . $this->name;
     }
 
     /**
@@ -144,7 +144,7 @@ abstract class SNFS_Field_Base {
      * Value is intentionally NOT included — it's passed at render time.
      */
     protected function build_attributes(): array {
-        $class = trim( 'snfs-input snfs-input-' . $this->type . ' ' . ( $this->args['class'] ?? '' ) );
+        $class = trim( 'swfk-input swfk-input-' . $this->type . ' ' . ( $this->args['class'] ?? '' ) );
 
         $attrs = [
             'id'    => $this->meta_key,
@@ -168,18 +168,18 @@ abstract class SNFS_Field_Base {
     /**
      * Output the field HTML.
      *
-     * $meta_key and $value are passed in by SNFS_Admin at render time so the
+     * $meta_key and $value are passed in by SWFK_Admin at render time so the
      * admin layer can pass the correct resolved key and current saved value.
      * This allows one field instance to be re-used in different contexts.
      *
      * Child classes MUST override this — this base version is a plain text
      * input that serves as a safe fallback only.
      *
-     * @param string $meta_key  The input name + id (e.g. 'snfs_hero_title').
+     * @param string $meta_key  The input name + id (e.g. 'swfk_hero_title').
      * @param mixed  $value     Current saved value.
      */
     public function render( string $meta_key, $value ): void {
-        do_action( 'snfs_before_field_render', $meta_key, $value, $this );
+        do_action( 'swfk_before_field_render', $meta_key, $value, $this );
 
         $attrs          = $this->build_attributes();
         $attrs['type']  = 'text';
@@ -193,7 +193,7 @@ abstract class SNFS_Field_Base {
             echo '<p class="description">' . esc_html( $this->args['instructions'] ) . '</p>';
         }
 
-        do_action( 'snfs_after_field_render', $meta_key, $value, $this );
+        do_action( 'swfk_after_field_render', $meta_key, $value, $this );
     }
 
     // ── Save / Delete ─────────────────────────────────────────────────────────
@@ -235,7 +235,7 @@ abstract class SNFS_Field_Base {
     /**
      * Sanitize raw input before saving.
      * Override in child classes for type-specific sanitization.
-     * e.g. SNFS_Field_Number::sanitize() would cast to int/float.
+     * e.g. SWFK_Field_Number::sanitize() would cast to int/float.
      *
      * @param mixed $value
      * @return mixed
@@ -254,8 +254,8 @@ abstract class SNFS_Field_Base {
     public function validate( $value ): true|WP_Error {
         if ( ! empty( $this->args['required'] ) && ( $value === '' || $value === null ) ) {
             return new WP_Error(
-                'snfs_field_required',
-                sprintf( __( 'The field "%s" is required.', 'snfs' ), $this->label )
+                'swfk_field_required',
+                sprintf( __( 'The field "%s" is required.', 'swfk' ), $this->label )
             );
         }
         return true;
@@ -268,7 +268,7 @@ abstract class SNFS_Field_Base {
     public function get_type(): string    { return $this->type; }
     public function get_meta_key(): string{ return $this->meta_key; }
     public function get_args(): array     { return $this->args; }
-    public function get_context(): ?SNFS_Context_Interface { return $this->context; }
+    public function get_context(): ?SWFK_Context_Interface { return $this->context; }
 
     /** Get the currently loaded value. */
     public function get_value(): mixed    { return $this->value; }

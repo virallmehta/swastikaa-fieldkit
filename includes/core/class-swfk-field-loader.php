@@ -2,9 +2,9 @@
 /**
  * Auto-discovers and loads field types from the /fields directory.
  * Scans each field subdirectory for a field.json manifest and loads the
- * corresponding class file, registering it with SNFS_Field_Registry.
+ * corresponding class file, registering it with SWFK_Field_Registry.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Field_Loader {
+class SWFK_Field_Loader {
 
     public static function load( string $base_path ): void {
         foreach ( glob( $base_path . '/*/field.json' ) as $json ) { 
@@ -30,18 +30,18 @@ class SNFS_Field_Loader {
             } else {
             }
              
-            SNFS_Field_Registry::register(
+            SWFK_Field_Registry::register(
                 $config['type'],
                 $config['class'],
                 $config['label']
             );
 
-            SNFS_Template_Registry::register(
+            SWFK_Template_Registry::register(
                 $config['type'],
                 $dir . '/template.php'
             );
 
-            SNFS_Assets_Manager::register(
+            SWFK_Assets_Manager::register(
                 $config['type'],
                 $dir
             );

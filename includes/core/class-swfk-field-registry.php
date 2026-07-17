@@ -3,7 +3,7 @@
  * Field type registry. Maps field type slugs to their PHP class names and labels.
  * All field types must be registered here before they can be used.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Field_Registry {
+class SWFK_Field_Registry {
     /**
      * Registered field types → class map.
      *
@@ -48,15 +48,10 @@ class SNFS_Field_Registry {
          * @param string $class
          * @param string $label
          */
-        do_action( 'snfs_field_registered', $type, $class, $label );
+        do_action( 'swfk_field_registered', $type, $class, $label );
 
         return true;
     }
-
-    // public static function get( string $type ): ?string {
-    //     $type = sanitize_key( strtolower( $type ) );
-    //     return self::$fields[ $type ] ?? null;
-    // }
 
     public static function get( string $type ): mixed {
         $type = sanitize_key( strtolower( $type ) );
@@ -76,10 +71,10 @@ class SNFS_Field_Registry {
         }
         $booted = true;
 
-        do_action( 'snfs_fields_booted' );
+        do_action( 'swfk_fields_booted' );
     }
 
-    public static function get_instance( string $type, array $config, SNFS_Context_Interface $context ): ?SNFS_Field_Base {
+    public static function get_instance( string $type, array $config, SWFK_Context_Interface $context ): ?SWFK_Field_Base {
         //$class = self::get( $type );
         $class = self::$fields[$type]['class'];
 
@@ -87,7 +82,7 @@ class SNFS_Field_Registry {
             return null;
         }
 
-        if ( ! class_exists( $class ) || ! is_a( $class, SNFS_Field_Base::class, true ) ) {
+        if ( ! class_exists( $class ) || ! is_a( $class, SWFK_Field_Base::class, true ) ) {
             return null;
         }
 
