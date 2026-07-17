@@ -1,10 +1,10 @@
 <?php
 /**
- * Abstract base class for every SwastiNexus Fields Studio field type.
+ * Abstract base class for every field type.
  * Encapsulates field identity, context, rendering, sanitisation, validation,
  * and storage. All concrete field types extend this class.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
