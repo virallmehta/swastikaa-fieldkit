@@ -1,10 +1,10 @@
 <?php
 /**
- * SwastiNexus Fields Studio Admin — Field Group Builder + Runtime Field Display.
+ * Admin — Field Group Builder + Runtime Field Display.
  * Handles metaboxes, field group saves, asset enqueueing, and field rendering across
  * posts, taxonomy terms, users, and options screens.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Admin {
+class SWFK_Admin {
 
     public function __construct() {
 
@@ -21,15 +21,15 @@ class SNFS_Admin {
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_location_data' ] );
 
         // ── Field Group Builder ──────────────────────────────────────────────
-        add_action( 'add_meta_boxes_snfs_field_group', [ $this, 'add_field_group_metaboxes' ] );
-        add_action( 'save_post_snfs_field_group',      [ $this, 'save_field_group' ] );
+        add_action( 'add_meta_boxes_swfk_field_group', [ $this, 'add_field_group_metaboxes' ] );
+        add_action( 'save_post_swfk_field_group',      [ $this, 'save_field_group' ] );
 
         // ── Runtime: Posts ───────────────────────────────────────────────────
         add_action( 'add_meta_boxes', [ $this, 'add_post_metaboxes' ], 10, 2 );
         add_action( 'save_post',      [ $this, 'save_post_fields' ] );
         add_action( 'init', function() {
             foreach ( get_post_types( [ 'show_in_rest' => true ], 'names' ) as $pt ) {
-                if ( $pt === 'snfs_field_group' ) continue;
+                if ( $pt === 'swfk_field_group' ) continue;
                 add_action( "rest_after_insert_{$pt}", [ $this, 'save_post_fields_rest' ], 10, 1 );
             }
         }, 100 );
@@ -57,12 +57,12 @@ class SNFS_Admin {
         }
 
         if ( in_array( $hook, [ 'post.php', 'post-new.php', 'profile.php', 'user-edit.php' ], true )
-            || $screen->post_type === 'snfs_field_group' ) {
+            || $screen->post_type === 'swfk_field_group' ) {
             wp_enqueue_style(
-                'snfs-admin-css',
-                SNFS_PLUGIN_URL . 'assets/css/admin.css',
+                'swfk-admin-css',
+                SWFK_PLUGIN_URL . 'assets/css/admin.css',
                 [],
-                SNFS_VERSION
+                SWFK_VERSION
             );
         }
 
@@ -76,43 +76,43 @@ class SNFS_Admin {
         if ( $is_runtime_screen ) {
             wp_enqueue_media();
             wp_enqueue_script(
-                'snfs-admin-fields',
-                SNFS_PLUGIN_URL . 'assets/js/snfs-admin-fields.js',
+                'swfk-admin-fields',
+                SWFK_PLUGIN_URL . 'assets/js/swfk-admin-fields.js',
                 [ 'jquery', 'media-editor' ],
-                SNFS_VERSION,
+                SWFK_VERSION,
                 true
             );
-            wp_localize_script( 'snfs-admin-fields', 'snfsAdmin', [
+            wp_localize_script( 'swfk-admin-fields', 'swfkAdmin', [
                 'i18n' => [
-                    'selectImage' => __( 'Select Image', 'snfs' ),
-                    'useImage'    => __( 'Use Image', 'snfs' ),
-                    'changeImage' => __( 'Change Image', 'snfs' ),
-                    'selectFile'  => __( 'Select File', 'snfs' ),
-                    'useFile'     => __( 'Use File', 'snfs' ),
-                    'changeFile'  => __( 'Change File', 'snfs' ),
-                    'addImages'   => __( 'Add Images', 'snfs' ),
-                    'remove'      => __( 'Remove', 'snfs' ),
+                    'selectImage' => __( 'Select Image', 'swastikaa-fieldkit' ),
+                    'useImage'    => __( 'Use Image', 'swastikaa-fieldkit' ),
+                    'changeImage' => __( 'Change Image', 'swastikaa-fieldkit' ),
+                    'selectFile'  => __( 'Select File', 'swastikaa-fieldkit' ),
+                    'useFile'     => __( 'Use File', 'swastikaa-fieldkit' ),
+                    'changeFile'  => __( 'Change File', 'swastikaa-fieldkit' ),
+                    'addImages'   => __( 'Add Images', 'swastikaa-fieldkit' ),
+                    'remove'      => __( 'Remove', 'swastikaa-fieldkit' ),
                 ],
             ]);
         }
 
-        if ( $screen->post_type !== 'snfs_field_group' ) {
+        if ( $screen->post_type !== 'swfk_field_group' ) {
             return;
         }
 
         wp_enqueue_script( 'jquery-ui-sortable' );
         wp_enqueue_script(
-            'snfs-admin-js',
-            SNFS_PLUGIN_URL . 'assets/js/admin.js',
+            'swfk-admin-js',
+            SWFK_PLUGIN_URL . 'assets/js/admin.js',
             [ 'jquery', 'jquery-ui-sortable' ],
-            SNFS_VERSION,
+            SWFK_VERSION,
             true
         );
     }
 
     public function enqueue_location_data(): void {
         $screen = get_current_screen();
-        if ( ! $screen || $screen->post_type !== 'snfs_field_group' ) {
+        if ( ! $screen || $screen->post_type !== 'swfk_field_group' ) {
             return;
         }
 
@@ -126,7 +126,7 @@ class SNFS_Admin {
             $taxonomies[ $tax->name ] = $tax->label;
         }
 
-        wp_localize_script( 'snfs-admin-js', 'sfLocationDataSet', [
+        wp_localize_script( 'swfk-admin-js', 'sfLocationDataSet', [
             'postTypes'  => $post_types,
             'taxonomies' => $taxonomies,
         ] );
@@ -138,19 +138,19 @@ class SNFS_Admin {
 
     public function add_field_group_metaboxes(): void {
         add_meta_box(
-            'snfs-field-builder',
+            'swfk-field-builder',
             'SwastiNexus Field Builder',
             [ $this, 'render_field_builder' ],
-            'snfs_field_group',
+            'swfk_field_group',
             'normal',
             'high'
         );
 
         add_meta_box(
-            'snfs-location-rules',
+            'swfk-location-rules',
             'Location Rules',
             [ $this, 'render_location_rules' ],
-            'snfs_field_group',
+            'swfk_field_group',
             'side',
             'default'
         );
@@ -161,24 +161,24 @@ class SNFS_Admin {
     // =========================================================================
 
     public function render_field_builder( WP_Post $post ): void {
-        $fields      = get_post_meta( $post->ID, 'snfs_fields', true ) ?: [];
-        $field_types = SNFS_Field_Registry::get_all();
+        $fields      = get_post_meta( $post->ID, 'swfk_fields', true ) ?: [];
+        $field_types = SWFK_Field_Registry::get_all();
 
-        wp_nonce_field( 'snfs_save_field_group', 'snfs_fields_nonce' );
+        wp_nonce_field( 'swfk_save_field_group', 'swfk_fields_nonce' );
         ?>
 
-        <input type="hidden" id="snfs-fields-json" name="snfs_fields"
+        <input type="hidden" id="swfk-fields-json" name="swfk_fields"
             value="<?php echo esc_attr( wp_json_encode( $fields ) ); ?>">
 
-        <button type="button" id="snfs-add-field" class="button button-primary">+ Add Field</button>
+        <button type="button" id="swfk-add-field" class="button button-primary">+ Add Field</button>
 
-        <template id="snfs-field-row-template">
+        <template id="swfk-field-row-template">
             <?php $this->render_field_row( '__INDEX__', [], $field_types ); ?>
         </template>
 
-        <div id="snfs-fields-container" class="snfs-fields-grid">
+        <div id="swfk-fields-container" class="swfk-fields-grid">
             <?php if ( empty( $fields ) ) : ?>
-                <div class="snfs-placeholder">No fields yet. Click "Add Field" to start.</div>
+                <div class="swfk-placeholder">No fields yet. Click "Add Field" to start.</div>
             <?php else : ?>
                 <?php foreach ( $fields as $index => $field ) : ?>
                     <?php $this->render_field_row( (string) $index, $field, $field_types ); ?>
@@ -197,46 +197,46 @@ class SNFS_Admin {
         $placeholder  = $field['placeholder']  ?? '';
         $instructions = $field['instructions'] ?? '';
         ?>
-        <div class="snfs-field-row" data-index="<?php echo esc_attr( $index ); ?>">
-            <div class="snfs-field-header">
-                <span class="snfs-field-handle dashicons dashicons-move" title="Drag to reorder"></span>
-                <span class="snfs-field-title" data-field-label="<?php echo esc_attr( $label ); ?>">
+        <div class="swfk-field-row" data-index="<?php echo esc_attr( $index ); ?>">
+            <div class="swfk-field-header">
+                <span class="swfk-field-handle dashicons dashicons-move" title="Drag to reorder"></span>
+                <span class="swfk-field-title" data-field-label="<?php echo esc_attr( $label ); ?>">
                     <?php echo esc_html( $label ?: 'New Field' ); ?>
                 </span>
-                <div class="snfs-field-controls">
-                    <button type="button" class="snfs-field-toggle button-link" title="Expand/Collapse">
+                <div class="swfk-field-controls">
+                    <button type="button" class="swfk-field-toggle button-link" title="Expand/Collapse">
                         <span class="dashicons dashicons-arrow-down-alt2 toggle-expanded"></span>
                         <span class="dashicons dashicons-arrow-up-alt2 toggle-collapsed" style="display:none;"></span>
                     </button>
-                    <button type="button" class="snfs-field-duplicate button-link" title="Duplicate">
+                    <button type="button" class="swfk-field-duplicate button-link" title="Duplicate">
                         <span class="dashicons dashicons-admin-page"></span>
                     </button>
-                    <button type="button" class="snfs-field-remove button-link-delete" title="Remove">Remove</button>
+                    <button type="button" class="swfk-field-remove button-link-delete" title="Remove">Remove</button>
                 </div>
             </div>
 
-            <div class="snfs-field-body">
-                <div class="snfs-row-grid">
-                    <div class="snfs-col">
+            <div class="swfk-field-body">
+                <div class="swfk-row-grid">
+                    <div class="swfk-col">
                         <label>Field Label</label>
                         <input type="text"
-                            class="snfs-field-label"
+                            class="swfk-field-label"
                             value="<?php echo esc_attr( $label ); ?>"
                             placeholder="Field Label" />
                     </div>
 
-                    <div class="snfs-col">
+                    <div class="swfk-col">
                         <label>Field Name <small>(key)</small></label>
                         <input type="text"
-                            class="snfs-field-name"
+                            class="swfk-field-name"
                             value="<?php echo esc_attr( $name ); ?>"
                             placeholder="field_name" />
                         <small>Lowercase, underscores only</small>
                     </div>
 
-                    <div class="snfs-col">
+                    <div class="swfk-col">
                         <label>Field Type</label>
-                        <select class="snfs-field-type">
+                        <select class="swfk-field-type">
                             <?php foreach ( $field_types as $type_key => $type_info ) : ?>
                                 <option value="<?php echo esc_attr( $type_key ); ?>"
                                     <?php echo selected( $type, $type_key, false ); ?>>
@@ -246,14 +246,14 @@ class SNFS_Admin {
                         </select>
                     </div>
 
-                    <div class="snfs-col snfs-col-required">
+                    <div class="swfk-col swfk-col-required">
                         <label>Required</label>
-                        <label class="snfs-toggle-switch">
+                        <label class="swfk-toggle-switch">
                             <input type="checkbox"
-                                class="snfs-field-required"
+                                class="swfk-field-required"
                                 value="1"
                                 <?php echo checked( $required, true, false ); ?> />
-                            <span class="snfs-toggle-slider"></span>
+                            <span class="swfk-toggle-slider"></span>
                         </label>
                     </div>
                 </div>
@@ -269,58 +269,58 @@ class SNFS_Admin {
                 $step          = $field['step'] ?? '';
                 ?>
 
-                <div class="snfs-choices-wrap" style="<?php echo $show_choices ? '' : 'display:none;'; ?> padding:12px 16px 0;">
+                <div class="swfk-choices-wrap" style="<?php echo $show_choices ? '' : 'display:none;'; ?> padding:12px 16px 0;">
                     <label style="font-weight:600;">
                         Choices
                         <small style="font-weight:normal;color:#666;"> — one per line, format: <code>value : Label</code></small>
                     </label>
                     <textarea
-                        class="snfs-field-choices"
+                        class="swfk-field-choices"
                         rows="5"
                         style="width:100%;font-family:monospace;font-size:12px;"
                         placeholder="Option 1 : Option 1&#10;Option 2 : Option 2&#10;Option 3 : Option 3"><?php echo esc_textarea( $choices_raw ); ?></textarea>
                 </div>
 
-                <div class="snfs-range-wrap" style="<?php echo $show_range ? '' : 'display:none;'; ?> padding:12px 16px 0;">
-                    <div class="snfs-row-grid">
-                        <div class="snfs-col">
+                <div class="swfk-range-wrap" style="<?php echo $show_range ? '' : 'display:none;'; ?> padding:12px 16px 0;">
+                    <div class="swfk-row-grid">
+                        <div class="swfk-col">
                             <label>Min</label>
-                            <input type="number" class="snfs-field-min"
+                            <input type="number" class="swfk-field-min"
                                 value="<?php echo esc_attr( $min ); ?>" placeholder="e.g. 0" step="any" />
                         </div>
-                        <div class="snfs-col">
+                        <div class="swfk-col">
                             <label>Max</label>
-                            <input type="number" class="snfs-field-max"
+                            <input type="number" class="swfk-field-max"
                                 value="<?php echo esc_attr( $max ); ?>" placeholder="e.g. 100" step="any" />
                         </div>
-                        <div class="snfs-col">
+                        <div class="swfk-col">
                             <label>Step</label>
-                            <input type="number" class="snfs-field-step"
+                            <input type="number" class="swfk-field-step"
                                 value="<?php echo esc_attr( $step ); ?>" placeholder="e.g. 1" step="any" />
                         </div>
                     </div>
                 </div>
 
-                <div class="snfs-advanced-options">
-                    <div class="snfs-row-grid">
-                        <div class="snfs-col">
+                <div class="swfk-advanced-options">
+                    <div class="swfk-row-grid">
+                        <div class="swfk-col">
                             <label>Default Value</label>
                             <input type="text"
-                                class="snfs-field-default"
+                                class="swfk-field-default"
                                 value="<?php echo esc_attr( $default ); ?>"
                                 placeholder="(optional)" />
                         </div>
-                        <div class="snfs-col">
+                        <div class="swfk-col">
                             <label>Placeholder</label>
                             <input type="text"
-                                class="snfs-field-placeholder"
+                                class="swfk-field-placeholder"
                                 value="<?php echo esc_attr( $placeholder ); ?>"
                                 placeholder="(optional)" />
                         </div>
-                        <div class="snfs-col">
+                        <div class="swfk-col">
                             <label>Instructions</label>
                             <input type="text"
-                                class="snfs-field-instructions"
+                                class="swfk-field-instructions"
                                 value="<?php echo esc_attr( $instructions ); ?>"
                                 placeholder="Help text shown to editors" />
                         </div>
@@ -336,7 +336,7 @@ class SNFS_Admin {
     // =========================================================================
 
     public function render_location_rules( WP_Post $post ): void {
-        $rules      = get_post_meta( $post->ID, 'snfs_location_rules', true ) ?: [];
+        $rules      = get_post_meta( $post->ID, 'swfk_location_rules', true ) ?: [];
         $post_types = get_post_types( [ 'public' => true ], 'objects' );
         $taxonomies = get_taxonomies( [ 'public' => true ], 'objects' );
         ?>
@@ -347,10 +347,10 @@ class SNFS_Admin {
             </p>
         </div>
 
-        <div id="snfs-location-rules-container"
+        <div id="swfk-location-rules-container"
             style="background:#f9f9f9; border:1px solid #ddd; padding:15px; border-radius:4px; min-height:80px;">
             <?php if ( empty( $rules ) ) : ?>
-                <div class="snfs-rules-placeholder"
+                <div class="swfk-rules-placeholder"
                     style="padding:20px; text-align:center; color:#8d9db3; font-style:italic;">
                     No location rules set. Field group will not show anywhere.
                 </div>
@@ -362,16 +362,16 @@ class SNFS_Admin {
         </div>
 
         <p style="margin-top:15px;">
-            <button type="button" id="snfs-add-location-rule"
+            <button type="button" id="swfk-add-location-rule"
                 class="button button-secondary" style="width:100%;">
                 + Add Location Rule
             </button>
         </p>
 
-        <input type="hidden" id="snfs-location-rules-json" name="snfs_location_rules"
+        <input type="hidden" id="swfk-location-rules-json" name="swfk_location_rules"
             value="<?php echo esc_attr( wp_json_encode( $rules ) ); ?>" />
 
-        <script type="text/template" id="snfs-location-rule-template" style="display:none;">
+        <script type="text/template" id="swfk-location-rule-template" style="display:none;">
             <?php $this->render_location_rule( '__RULE_INDEX__', [], $post_types, $taxonomies ); ?>
         </script>
         <?php
@@ -382,32 +382,32 @@ class SNFS_Admin {
         $operator = $rule['operator'] ?? 'is';
         $value    = $rule['value']    ?? '';
         ?>
-        <div class="snfs-location-rule" data-rule-index="<?php echo esc_attr( $index ); ?>">
-            <div class="snfs-rule-row">
-                <div class="snfs-col">
+        <div class="swfk-location-rule" data-rule-index="<?php echo esc_attr( $index ); ?>">
+            <div class="swfk-rule-row">
+                <div class="swfk-col">
                     <label>Type</label>
-                    <select class="snfs-rule-type" data-rule="<?php echo esc_attr( $index ); ?>[type]">
+                    <select class="swfk-rule-type" data-rule="<?php echo esc_attr( $index ); ?>[type]">
                         <option value="post_type"    <?php echo selected( $type, 'post_type',    false ); ?>>Post Type</option>
                         <option value="taxonomy"     <?php echo selected( $type, 'taxonomy',     false ); ?>>Taxonomy</option>
                         <option value="user_profile" <?php echo selected( $type, 'user_profile', false ); ?>>User Profile</option>
                     </select>
                 </div>
-                <div class="snfs-col">
+                <div class="swfk-col">
                     <label>Show when</label>
-                    <select class="snfs-rule-operator" data-rule="<?php echo esc_attr( $index ); ?>[operator]">
+                    <select class="swfk-rule-operator" data-rule="<?php echo esc_attr( $index ); ?>[operator]">
                         <option value="is"     <?php echo selected( $operator, 'is',     false ); ?>>is equal to</option>
                         <option value="is_not" <?php echo selected( $operator, 'is_not', false ); ?>>is NOT equal to</option>
                     </select>
                 </div>
-                <div class="snfs-col-auto">
+                <div class="swfk-col-auto">
                     <label>Value</label>
-                    <select class="snfs-rule-value" data-rule="<?php echo esc_attr( $index ); ?>[value]"
+                    <select class="swfk-rule-value" data-rule="<?php echo esc_attr( $index ); ?>[value]"
                         style="width:100%;">
                         <!-- Populated by JS -->
                     </select>
                 </div>
                 <div>
-                    <button type="button" class="snfs-rule-remove button-link-delete"
+                    <button type="button" class="swfk-rule-remove button-link-delete"
                         style="width:100%; margin-top:20px;">Remove Rule</button>
                 </div>
             </div>
@@ -420,8 +420,8 @@ class SNFS_Admin {
     // =========================================================================
 
     public function save_field_group( int $post_id ): void {
-        if ( ! isset( $_POST['snfs_fields_nonce'] ) ||
-             ! wp_verify_nonce( $_POST['snfs_fields_nonce'], 'snfs_save_field_group' ) ) {
+        if ( ! isset( $_POST['swfk_fields_nonce'] ) ||
+             ! wp_verify_nonce( $_POST['swfk_fields_nonce'], 'swfk_save_field_group' ) ) {
             return;
         }
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -432,8 +432,8 @@ class SNFS_Admin {
         }
 
         $fields = [];
-        if ( ! empty( $_POST['snfs_fields'] ) ) {
-            $decoded = json_decode( wp_unslash( $_POST['snfs_fields'] ), true );
+        if ( ! empty( $_POST['swfk_fields'] ) ) {
+            $decoded = json_decode( wp_unslash( $_POST['swfk_fields'] ), true );
             if ( is_array( $decoded ) ) {
                 foreach ( $decoded as $field ) {
                     if ( empty( $field['name'] ) ) {
@@ -455,11 +455,11 @@ class SNFS_Admin {
                 }
             }
         }
-        update_post_meta( $post_id, 'snfs_fields', $fields );
+        update_post_meta( $post_id, 'swfk_fields', $fields );
 
         $rules = [];
-        if ( ! empty( $_POST['snfs_location_rules'] ) ) {
-            $decoded = json_decode( wp_unslash( $_POST['snfs_location_rules'] ), true );
+        if ( ! empty( $_POST['swfk_location_rules'] ) ) {
+            $decoded = json_decode( wp_unslash( $_POST['swfk_location_rules'] ), true );
             if ( is_array( $decoded ) ) {
                 foreach ( $decoded as $rule ) {
                     if ( empty( $rule['type'] ) ) {
@@ -473,9 +473,9 @@ class SNFS_Admin {
                 }
             }
         }
-        update_post_meta( $post_id, 'snfs_location_rules', $rules );
+        update_post_meta( $post_id, 'swfk_location_rules', $rules );
 
-        SNFS_Field_Group_Repository::clear_cache();
+        SWFK_Field_Group_Repository::clear_cache();
     }
 
     // =========================================================================
@@ -483,16 +483,16 @@ class SNFS_Admin {
     // =========================================================================
 
     public function add_post_metaboxes( string $post_type, WP_Post $post ): void {
-        if ( $post_type === 'snfs_field_group' ) {
+        if ( $post_type === 'swfk_field_group' ) {
             return;
         }
 
-        $context = new SNFS_Post_Context( $post->ID, get_post_type( $post->ID ) ?: $post->post_type );
-        $groups  = SNFS_Field_Group_Repository::get_for_context( $context );
+        $context = new SWFK_Post_Context( $post->ID, get_post_type( $post->ID ) ?: $post->post_type );
+        $groups  = SWFK_Field_Group_Repository::get_for_context( $context );
 
         foreach ( $groups as $group_id => $group_data ) {
             add_meta_box(
-                'snfs-fields-' . $group_id,
+                'swfk-fields-' . $group_id,
                 esc_html( $group_data['post']->post_title ),
                 [ $this, 'render_post_metabox' ],
                 $post_type,
@@ -505,9 +505,9 @@ class SNFS_Admin {
 
     public function render_post_metabox( WP_Post $post, array $metabox ): void {
         $fields  = $metabox['args']['fields'] ?? [];
-        $context = new SNFS_Post_Context( $post->ID, get_post_type( $post->ID ) ?: $post->post_type );
+        $context = new SWFK_Post_Context( $post->ID, get_post_type( $post->ID ) ?: $post->post_type );
 
-        wp_nonce_field( 'snfs_save_post_fields', 'snfs_post_fields_nonce' );
+        wp_nonce_field( 'swfk_save_post_fields', 'swfk_post_fields_nonce' );
 
         if ( empty( $fields ) ) {
             echo '<p>No fields in this group.</p>';
@@ -515,10 +515,10 @@ class SNFS_Admin {
         }
 
         foreach ( array_unique( array_column( $fields, 'type' ) ) as $_type ) {
-            SNFS_Assets_Manager::enqueue( $_type );
+            SWFK_Assets_Manager::enqueue( $_type );
         }
 
-        echo '<table class="form-table snfs-runtime-table">';
+        echo '<table class="form-table swfk-runtime-table">';
         foreach ( $fields as $field ) {
             $this->render_runtime_field_row( $field, $context );
         }
@@ -526,8 +526,8 @@ class SNFS_Admin {
     }
 
     public function save_post_fields( int $post_id ): void {
-        if ( ! isset( $_POST['snfs_post_fields_nonce'] ) ||
-             ! wp_verify_nonce( $_POST['snfs_post_fields_nonce'], 'snfs_save_post_fields' ) ) {
+        if ( ! isset( $_POST['swfk_post_fields_nonce'] ) ||
+             ! wp_verify_nonce( $_POST['swfk_post_fields_nonce'], 'swfk_save_post_fields' ) ) {
             return;
         }
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -536,18 +536,18 @@ class SNFS_Admin {
         if ( ! current_user_can( 'edit_post', $post_id ) ) {
             return;
         }
-        if ( get_post_type( $post_id ) === 'snfs_field_group' ) {
+        if ( get_post_type( $post_id ) === 'swfk_field_group' ) {
             return;
         }
 
-        $this->save_fields_for_context( new SNFS_Post_Context( $post_id ) );
+        $this->save_fields_for_context( new SWFK_Post_Context( $post_id ) );
     }
 
     public function save_post_fields_rest( WP_Post $post ): void {
         if ( ! current_user_can( 'edit_post', $post->ID ) ) {
             return;
         }
-        if ( $post->post_type === 'snfs_field_group' ) {
+        if ( $post->post_type === 'swfk_field_group' ) {
             return;
         }
 
@@ -556,17 +556,17 @@ class SNFS_Admin {
             return;
         }
 
-        $context = new SNFS_Post_Context( $post->ID, $post->post_type );
-        $groups  = SNFS_Field_Group_Repository::get_for_context( $context );
+        $context = new SWFK_Post_Context( $post->ID, $post->post_type );
+        $groups  = SWFK_Field_Group_Repository::get_for_context( $context );
 
         foreach ( $groups as $group_data ) {
             foreach ( $group_data['fields'] as $field ) {
-                $meta_key = 'snfs_' . $field['name'];
+                $meta_key = 'swfk_' . $field['name'];
                 if ( ! array_key_exists( $meta_key, $request['meta'] ) ) {
                     continue;
                 }
                 $raw      = $request['meta'][ $meta_key ];
-                $instance = SNFS_Field_Registry::get_instance( $field['type'], $field, $context );
+                $instance = SWFK_Field_Registry::get_instance( $field['type'], $field, $context );
                 $value    = $instance ? $instance->sanitize( $raw ) : sanitize_text_field( $raw );
                 $context->storage()->save( $meta_key, $post->ID, $value );
             }
@@ -600,21 +600,21 @@ class SNFS_Admin {
     }
 
     private function render_taxonomy_add_fields( string $taxonomy ): void {
-        $context = new SNFS_Term_Context( 0, $taxonomy );
-        $groups  = SNFS_Field_Group_Repository::get_for_context( $context );
+        $context = new SWFK_Term_Context( 0, $taxonomy );
+        $groups  = SWFK_Field_Group_Repository::get_for_context( $context );
 
         if ( empty( $groups ) ) {
             return;
         }
 
-        wp_nonce_field( 'snfs_save_tax_fields', 'snfs_tax_nonce' );
+        wp_nonce_field( 'swfk_save_tax_fields', 'swfk_tax_nonce' );
 
         foreach ( $groups as $group_data ) {
-            echo '<div class="snfs-tax-group">';
+            echo '<div class="swfk-tax-group">';
             echo '<h3>' . esc_html( $group_data['post']->post_title ) . '</h3>';
             foreach ( $group_data['fields'] as $field ) {
-                $meta_key = 'snfs_' . $field['name'];
-                $instance = SNFS_Field_Registry::get_instance( $field['type'], $field, $context );
+                $meta_key = 'swfk_' . $field['name'];
+                $instance = SWFK_Field_Registry::get_instance( $field['type'], $field, $context );
                 echo '<div class="form-field' . ( ! empty( $field['required'] ) ? ' form-required' : '' ) . '">';
                 echo '<label for="' . esc_attr( $meta_key ) . '">' . esc_html( $field['label'] );
                 if ( ! empty( $field['required'] ) ) {
@@ -635,25 +635,25 @@ class SNFS_Admin {
     }
 
     private function render_taxonomy_edit_fields( WP_Term $term, string $taxonomy ): void {
-        $context = new SNFS_Term_Context( $term->term_id, $taxonomy );
-        $groups  = SNFS_Field_Group_Repository::get_for_context( $context );
+        $context = new SWFK_Term_Context( $term->term_id, $taxonomy );
+        $groups  = SWFK_Field_Group_Repository::get_for_context( $context );
 
         if ( empty( $groups ) ) {
             return;
         }
 
-        wp_nonce_field( 'snfs_save_tax_fields', 'snfs_tax_nonce' );
+        wp_nonce_field( 'swfk_save_tax_fields', 'swfk_tax_nonce' );
 
         foreach ( $groups as $group_data ) {
-            echo '<tr class="snfs-tax-group-header"><td colspan="2">';
+            echo '<tr class="swfk-tax-group-header"><td colspan="2">';
             echo '<h3 style="margin:8px 0;">' . esc_html( $group_data['post']->post_title ) . '</h3>';
             echo '</td></tr>';
 
             foreach ( $group_data['fields'] as $field ) {
-                $meta_key = 'snfs_' . $field['name'];
+                $meta_key = 'swfk_' . $field['name'];
                 $value    = get_term_meta( $term->term_id, $meta_key, true );
                 $value    = ( $value !== '' && $value !== false ) ? $value : ( $field['default'] ?? '' );
-                $instance = SNFS_Field_Registry::get_instance( $field['type'], $field, $context );
+                $instance = SWFK_Field_Registry::get_instance( $field['type'], $field, $context );
 
                 echo '<tr class="form-field">';
                 echo '<th scope="row"><label for="' . esc_attr( $meta_key ) . '">';
@@ -676,12 +676,12 @@ class SNFS_Admin {
     }
 
     private function save_taxonomy_fields( int $term_id, string $taxonomy ): void {
-        if ( ! isset( $_POST['snfs_tax_nonce'] ) ||
-             ! wp_verify_nonce( $_POST['snfs_tax_nonce'], 'snfs_save_tax_fields' ) ) {
+        if ( ! isset( $_POST['swfk_tax_nonce'] ) ||
+             ! wp_verify_nonce( $_POST['swfk_tax_nonce'], 'swfk_save_tax_fields' ) ) {
             return;
         }
-        SNFS_Field_Group_Repository::clear_cache();
-        $this->save_fields_for_context( new SNFS_Term_Context( $term_id, $taxonomy ) );
+        SWFK_Field_Group_Repository::clear_cache();
+        $this->save_fields_for_context( new SWFK_Term_Context( $term_id, $taxonomy ) );
     }
 
     // =========================================================================
@@ -689,41 +689,41 @@ class SNFS_Admin {
     // =========================================================================
 
     public function render_user_fields( WP_User $user ): void {
-        $context = new SNFS_User_Context( $user->ID );
-        $groups  = SNFS_Field_Group_Repository::get_for_context( $context );
+        $context = new SWFK_User_Context( $user->ID );
+        $groups  = SWFK_Field_Group_Repository::get_for_context( $context );
 
         if ( empty( $groups ) ) {
             return;
         }
 
-        wp_nonce_field( 'snfs_save_user_fields', 'snfs_user_fields_nonce' );
+        wp_nonce_field( 'swfk_save_user_fields', 'swfk_user_fields_nonce' );
 
         foreach ( $groups as $group_data ) {
             echo '<h2>' . esc_html( $group_data['post']->post_title ) . '</h2>';
-            echo '<table class="form-table snfs-runtime-table">';
+            echo '<table class="form-table swfk-runtime-table">';
             foreach ( $group_data['fields'] as $field ) {
-                $this->render_runtime_field_row( $field, new SNFS_User_Context( $user->ID ) );
+                $this->render_runtime_field_row( $field, new SWFK_User_Context( $user->ID ) );
             }
             echo '</table>';
         }
     }
 
     public function render_new_user_fields( string $type ): void {
-        $context = new SNFS_User_Context( 0 );
-        $groups  = SNFS_Field_Group_Repository::get_for_context( $context );
+        $context = new SWFK_User_Context( 0 );
+        $groups  = SWFK_Field_Group_Repository::get_for_context( $context );
 
         if ( empty( $groups ) ) {
             return;
         }
 
-        wp_nonce_field( 'snfs_save_user_fields', 'snfs_user_fields_nonce' );
+        wp_nonce_field( 'swfk_save_user_fields', 'swfk_user_fields_nonce' );
 
         foreach ( $groups as $group_data ) {
             echo '<h3>' . esc_html( $group_data['post']->post_title ) . '</h3>';
-            echo '<table class="form-table snfs-runtime-table">';
+            echo '<table class="form-table swfk-runtime-table">';
             foreach ( $group_data['fields'] as $field ) {
-                $meta_key = 'snfs_' . $field['name'];
-                $instance = SNFS_Field_Registry::get_instance( $field['type'], $field, $context );
+                $meta_key = 'swfk_' . $field['name'];
+                $instance = SWFK_Field_Registry::get_instance( $field['type'], $field, $context );
                 echo '<tr>';
                 echo '<th><label for="' . esc_attr( $meta_key ) . '">' . esc_html( $field['label'] );
                 if ( ! empty( $field['required'] ) ) {
@@ -741,28 +741,28 @@ class SNFS_Admin {
     }
 
     public function save_user_fields( int $user_id ): void {
-        if ( ! isset( $_POST['snfs_user_fields_nonce'] ) ||
-             ! wp_verify_nonce( $_POST['snfs_user_fields_nonce'], 'snfs_save_user_fields' ) ) {
+        if ( ! isset( $_POST['swfk_user_fields_nonce'] ) ||
+             ! wp_verify_nonce( $_POST['swfk_user_fields_nonce'], 'swfk_save_user_fields' ) ) {
             return;
         }
         if ( ! current_user_can( 'edit_user', $user_id ) ) {
             return;
         }
-        $this->save_fields_for_context( new SNFS_User_Context( $user_id ) );
+        $this->save_fields_for_context( new SWFK_User_Context( $user_id ) );
     }
 
     // =========================================================================
     // SHARED HELPERS
     // =========================================================================
 
-    private function render_runtime_field_row( array $field, SNFS_Context_Interface $context ): void {
-        $meta_key = 'snfs_' . $field['name'];
+    private function render_runtime_field_row( array $field, SWFK_Context_Interface $context ): void {
+        $meta_key = 'swfk_' . $field['name'];
         $stored   = $context->storage()->get( $meta_key, $context->get_id() );
         $value    = ( $stored !== '' && $stored !== null && $stored !== false )
             ? $stored
             : ( $field['default'] ?? '' );
 
-        $instance = SNFS_Field_Registry::get_instance( $field['type'], $field, $context );
+        $instance = SWFK_Field_Registry::get_instance( $field['type'], $field, $context );
 
         echo '<tr>';
         echo '<th scope="row">';
@@ -785,12 +785,12 @@ class SNFS_Admin {
         echo '</td></tr>';
     }
 
-    private function save_fields_for_context( SNFS_Context_Interface $context ): void {
-        $groups = SNFS_Field_Group_Repository::get_for_context( $context );
+    private function save_fields_for_context( SWFK_Context_Interface $context ): void {
+        $groups = SWFK_Field_Group_Repository::get_for_context( $context );
 
         foreach ( $groups as $group_data ) {
             foreach ( $group_data['fields'] as $field ) {
-                $meta_key = 'snfs_' . $field['name'];
+                $meta_key = 'swfk_' . $field['name'];
                 $in_post  = isset( $_POST[ $meta_key ] );
 
                 if ( ! $in_post ) {
@@ -798,7 +798,7 @@ class SNFS_Admin {
                 }
 
                 $raw      = wp_unslash( $_POST[ $meta_key ] );
-                $instance = SNFS_Field_Registry::get_instance( $field['type'], $field, $context );
+                $instance = SWFK_Field_Registry::get_instance( $field['type'], $field, $context );
                 $value    = $instance
                     ? $instance->sanitize( $raw )
                     : sanitize_text_field( $raw );
@@ -809,4 +809,4 @@ class SNFS_Admin {
     }
 }
 
-new SNFS_Admin();
+new SWFK_Admin();
