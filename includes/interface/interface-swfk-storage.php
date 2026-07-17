@@ -3,7 +3,7 @@
  * Storage interface. All storage drivers (post meta, term meta, user meta, options)
  * must implement this interface to ensure a consistent read/write API.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,11 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-interface SNFS_Storage_Interface {
+interface SWFK_Storage_Interface {
    /**
      * Read a stored value.
      *
-     * @param string   $key  The meta key (already prefixed, e.g. 'snfs_hero_title').
+     * @param string   $key  The meta key (already prefixed, e.g. 'swfk_hero_title').
      * @param int|null $id   Record ID (post_id / term_id / user_id). Null = not applicable (options).
      * @return mixed         Stored value, or null / '' if not found.
      */
