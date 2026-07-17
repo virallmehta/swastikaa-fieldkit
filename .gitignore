@@ -1,4 +1,5 @@
 debug.php
+swastikaa-logger.php
 /logs
 *.zip
 .DS_Store
