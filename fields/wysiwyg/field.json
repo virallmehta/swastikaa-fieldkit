@@ -1,5 +1,5 @@
 {
   "type": "wysiwyg",
-  "class": "SNFS_Field_Wysiwyg",
+  "class": "SWFK_Field_Wysiwyg",
   "label": "WYSIWYG"
 }

@@ -2,7 +2,7 @@
 /**
  * Gallery field. Renders a media library multi-picker; stores attachment IDs as a comma-separated string.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Gallery field — multiple image selection via Media Library.
  * Stores comma-separated attachment IDs e.g. '12,45,67'.
  */
-class SNFS_Field_Gallery extends SNFS_Field_Base {
+class SWFK_Field_Gallery extends SWFK_Field_Base {
 
     protected string $type = 'gallery';
 

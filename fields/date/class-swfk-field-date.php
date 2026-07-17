@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Date field — <input type="date">.
  * Stores value as YYYY-MM-DD string.
  */
-class SNFS_Field_Date extends SNFS_Field_Base {
+class SWFK_Field_Date extends SWFK_Field_Base {
 
     protected string $type = 'date';
 

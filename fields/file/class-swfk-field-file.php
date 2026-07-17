@@ -2,7 +2,7 @@
 /**
  * File upload field. Renders a media library picker; stores the attachment ID.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * File field — uses WordPress Media Library.
  * Stores attachment ID. Allows any file type.
  */
-class SNFS_Field_File extends SNFS_Field_Base {
+class SWFK_Field_File extends SWFK_Field_Base {
 
     protected string $type = 'file';
 

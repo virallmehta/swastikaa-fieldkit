@@ -2,14 +2,14 @@
 /**
  * Checkbox field. Renders a set of checkbox inputs; stores selected values as a comma-separated string or array.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Field_Checkbox extends SNFS_Field_Base {
+class SWFK_Field_Checkbox extends SWFK_Field_Base {
 
     protected string $type = 'checkbox';
 
@@ -32,7 +32,7 @@ class SNFS_Field_Checkbox extends SNFS_Field_Base {
             echo '<input type="checkbox"'
                 . ' id="' . esc_attr( $meta_key ) . '"'
                 . ' name="' . esc_attr( $meta_key ) . '"'
-                . ' class="snfs-input snfs-input-checkbox"'
+                . ' class="swfk-input swfk-input-checkbox"'
                 . ' value="1" ' . $checked . ' />';
             if ( ! empty( $this->args['message'] ) ) {
                 echo ' ' . esc_html( $this->args['message'] );
@@ -41,7 +41,7 @@ class SNFS_Field_Checkbox extends SNFS_Field_Base {
         } else {
             // Multi-choice checkboxes
             $selected = is_array( $value ) ? $value : ( $value ? explode( ',', $value ) : [] );
-            echo '<ul class="snfs-checkbox-list" style="margin:0;padding:0;list-style:none;">';
+            echo '<ul class="swfk-checkbox-list" style="margin:0;padding:0;list-style:none;">';
             foreach ( $choices as $val => $lbl ) {
                 $checked = in_array( (string) $val, array_map( 'strval', $selected ), true ) ? 'checked' : '';
                 $uid     = esc_attr( $meta_key . '_' . sanitize_key( $val ) );
@@ -49,7 +49,7 @@ class SNFS_Field_Checkbox extends SNFS_Field_Base {
                 echo '<input type="checkbox"'
                     . ' id="' . $uid . '"'
                     . ' name="' . esc_attr( $meta_key ) . '[]"'
-                    . ' class="snfs-input snfs-input-checkbox"'
+                    . ' class="swfk-input swfk-input-checkbox"'
                     . ' value="' . esc_attr( $val ) . '" ' . $checked . ' />';
                 echo ' ' . esc_html( $lbl );
                 echo '</label></li>';

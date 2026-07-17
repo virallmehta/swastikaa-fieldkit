@@ -2,7 +2,7 @@
 /**
  * Text field. Renders a standard HTML text input; stores a plain text string.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Field_Text extends SNFS_Field_Base {
+class SWFK_Field_Text extends SWFK_Field_Base {
 
     protected  string $type = 'text';
 
@@ -19,4 +19,4 @@ class SNFS_Field_Text extends SNFS_Field_Base {
     }
 }
 
-//SNFS_Field_Registry::register( 'text', SNFS_Field_Text::class,'Text' );
+//SWFK_Field_Registry::register( 'text', SWFK_Field_Text::class,'Text' );

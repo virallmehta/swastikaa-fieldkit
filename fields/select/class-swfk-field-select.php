@@ -2,7 +2,7 @@
 /**
  * Select dropdown field. Renders an HTML select element from a user-defined choices list; stores the selected value.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Choices stored as 'value : Label' one per line in field config,
  * or as ['value' => 'Label'] array when used programmatically.
  */
-class SNFS_Field_Select extends SNFS_Field_Base {
+class SWFK_Field_Select extends SWFK_Field_Base {
 
     protected string $type = 'select';
 

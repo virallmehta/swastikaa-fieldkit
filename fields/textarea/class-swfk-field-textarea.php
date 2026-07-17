@@ -2,7 +2,7 @@
 /**
  * Textarea field. Renders a multi-line textarea input; stores a plain text string.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Textarea field.
  */
-class SNFS_Field_Textarea extends SNFS_Field_Base {
+class SWFK_Field_Textarea extends SWFK_Field_Base {
 
     protected string $type = 'textarea';
 

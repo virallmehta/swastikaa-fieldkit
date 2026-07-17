@@ -2,7 +2,7 @@
 /**
  * WYSIWYG editor field. Renders the WordPress TinyMCE/block editor; stores HTML content.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * WYSIWYG field — uses WordPress wp_editor().
  * Stores HTML content. Sanitized with wp_kses_post on save.
  */
-class SNFS_Field_Wysiwyg extends SNFS_Field_Base {
+class SWFK_Field_Wysiwyg extends SWFK_Field_Base {
 
     protected string $type = 'wysiwyg';
 

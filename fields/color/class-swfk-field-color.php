@@ -2,7 +2,7 @@
 /**
  * Color picker field. Renders an HTML5 color input; stores a hex colour string.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Color Picker field — uses native <input type="color">.
  * Stores a hex color string e.g. '#ff6600'.
  */
-class SNFS_Field_Color extends SNFS_Field_Base {
+class SWFK_Field_Color extends SWFK_Field_Base {
 
     protected string $type = 'color';
 

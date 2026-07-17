@@ -1,5 +1,5 @@
 {
   "type": "datetime",
-  "class": "SNFS_Field_Datetime",
+  "class": "SWFK_Field_Datetime",
   "label": "Date Time"
 }

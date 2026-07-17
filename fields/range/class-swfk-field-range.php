@@ -2,7 +2,7 @@
 /**
  * Range slider field. Renders an HTML5 range input with optional min/max/step; stores a numeric value.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Range slider field — <input type="range">.
  * Displays current value beside the slider.
  */
-class SNFS_Field_Range extends SNFS_Field_Base {
+class SWFK_Field_Range extends SWFK_Field_Base {
 
     protected string $type = 'range';
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Email field. Renders an HTML5 email input with basic validation; stores the email address string.
+ * Time field. Renders an HTML5 time input; stores a time string in H:i format.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,15 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Email field — <input type="email">.
+ * Time field — <input type="time">.
+ * Stores HH:MM string.
  */
-class SNFS_Field_Email extends SNFS_Field_Base {
+class SWFK_Field_Time extends SWFK_Field_Base {
 
-    protected string $type = 'email';
+    protected string $type = 'time';
 
     public function render( string $meta_key, $value ): void {
         $attrs = $this->build_attributes();
-        $attrs['type']  = 'email';
+        $attrs['type']  = 'time';
         $attrs['id']    = $meta_key;
         $attrs['name']  = $meta_key;
         $attrs['value'] = esc_attr( $value );
@@ -32,6 +33,7 @@ class SNFS_Field_Email extends SNFS_Field_Base {
     }
 
     public function sanitize( $value ): mixed {
-        return sanitize_email( $value );
+        $value = sanitize_text_field( $value );
+        return preg_match( '/^\d{2}:\d{2}(:\d{2})?$/', $value ) ? $value : '';
     }
 }

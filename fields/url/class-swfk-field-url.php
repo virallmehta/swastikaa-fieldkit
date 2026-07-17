@@ -1,8 +1,8 @@
 <?php
 /**
- * Time field. Renders an HTML5 time input; stores a time string in H:i format.
+ * URL field. Renders an HTML5 url input; stores the URL string.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,16 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Time field — <input type="time">.
- * Stores HH:MM string.
+ * URL field — <input type="url">.
  */
-class SNFS_Field_Time extends SNFS_Field_Base {
+class SWFK_Field_Url extends SWFK_Field_Base {
 
-    protected string $type = 'time';
+    protected string $type = 'url';
 
     public function render( string $meta_key, $value ): void {
         $attrs = $this->build_attributes();
-        $attrs['type']  = 'time';
+        $attrs['type']  = 'url';
         $attrs['id']    = $meta_key;
         $attrs['name']  = $meta_key;
         $attrs['value'] = esc_attr( $value );
@@ -33,7 +32,6 @@ class SNFS_Field_Time extends SNFS_Field_Base {
     }
 
     public function sanitize( $value ): mixed {
-        $value = sanitize_text_field( $value );
-        return preg_match( '/^\d{2}:\d{2}(:\d{2})?$/', $value ) ? $value : '';
+        return esc_url_raw( $value );
     }
 }

@@ -1,5 +1,5 @@
 {
   "type": "email",
-  "class": "SNFS_Field_Email",
+  "class": "SWFK_Field_Email",
   "label": "Email"
 }

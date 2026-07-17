@@ -1,8 +1,8 @@
 <?php
 /**
- * URL field. Renders an HTML5 url input; stores the URL string.
+ * Email field. Renders an HTML5 email input with basic validation; stores the email address string.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,15 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * URL field — <input type="url">.
+ * Email field — <input type="email">.
  */
-class SNFS_Field_Url extends SNFS_Field_Base {
+class SWFK_Field_Email extends SWFK_Field_Base {
 
-    protected string $type = 'url';
+    protected string $type = 'email';
 
     public function render( string $meta_key, $value ): void {
         $attrs = $this->build_attributes();
-        $attrs['type']  = 'url';
+        $attrs['type']  = 'email';
         $attrs['id']    = $meta_key;
         $attrs['name']  = $meta_key;
         $attrs['value'] = esc_attr( $value );
@@ -32,6 +32,6 @@ class SNFS_Field_Url extends SNFS_Field_Base {
     }
 
     public function sanitize( $value ): mixed {
-        return esc_url_raw( $value );
+        return sanitize_email( $value );
     }
 }

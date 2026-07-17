@@ -2,7 +2,7 @@
 /**
  * Repeater field. Renders a repeatable group of sub-fields; stores data as a serialised array.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * MVP: renders sub-fields as plain text inputs.
  * Full sub-field type rendering is a Pro enhancement.
  */
-class SNFS_Field_Repeater extends SNFS_Field_Base {
+class SWFK_Field_Repeater extends SWFK_Field_Base {
 
     protected string $type = 'repeater';
 

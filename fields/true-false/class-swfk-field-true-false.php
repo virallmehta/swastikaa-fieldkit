@@ -2,7 +2,7 @@
 /**
  * True/False toggle field. Renders a styled checkbox toggle; stores 1 (true) or 0 (false).
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * True / False field — styled toggle switch.
  * Stores '1' (true) or '0' (false).
  */
-class SNFS_Field_True_False extends SNFS_Field_Base {
+class SWFK_Field_True_False extends SWFK_Field_Base {
 
     protected string $type = 'true-false';
 

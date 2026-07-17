@@ -1,5 +1,5 @@
 {
   "type": "true-false",
-  "class": "SNFS_Field_True_False",
+  "class": "SWFK_Field_True_False",
   "label": "True / False"
 }

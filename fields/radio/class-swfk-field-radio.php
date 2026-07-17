@@ -2,7 +2,7 @@
 /**
  * Radio field. Renders a group of radio button inputs from a user-defined choices list; stores the selected value.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Radio button field.
  * Same choices format as Select.
  */
-class SNFS_Field_Radio extends SNFS_Field_Base {
+class SWFK_Field_Radio extends SWFK_Field_Base {
 
     protected string $type = 'radio';
 

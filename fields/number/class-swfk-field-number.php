@@ -2,7 +2,7 @@
 /**
  * Number field. Renders an HTML5 number input with optional min/max/step; stores a numeric value.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Number field — <input type="number">.
  * Supports min, max, step args.
  */
-class SNFS_Field_Number extends SNFS_Field_Base {
+class SFK_Field_Number extends SFK_Field_Base {
 
     protected string $type = 'number';
 

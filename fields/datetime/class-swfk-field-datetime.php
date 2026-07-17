@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * DateTime field — <input type="datetime-local">.
  * Stores value as YYYY-MM-DDTHH:MM string.
  */
-class SNFS_Field_Datetime extends SNFS_Field_Base {
+class SWFK_Field_Datetime extends SWFK_Field_Base {
 
     protected string $type = 'datetime';
 

@@ -2,7 +2,7 @@
 /**
  * Image field. Renders a media library image picker; stores the attachment ID.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Image field — uses WordPress Media Library.
  * Stores attachment ID (integer).
  */
-class SNFS_Field_Image extends SNFS_Field_Base {
+class SWFK_Field_Image extends SWFK_Field_Base {
 
     protected string $type = 'image';
 

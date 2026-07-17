@@ -1,5 +1,5 @@
 {
   "type": "range",
-  "class": "SNFS_Field_Range",
+  "class": "SWFK_Field_Range",
   "label": "Range"
 }
