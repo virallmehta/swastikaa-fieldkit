@@ -1,9 +1,9 @@
 <?php
 /**
  * Options storage driver. Reads and writes field values using get_option()
- * and update_option() with the snfs_ key prefix.
+ * and update_option() with the swfk_ key prefix.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Options_Storage implements SNFS_Storage_Interface {
+class SWFK_Options_Storage implements SWFK_Storage_Interface {
 
     /** @var string The wp_options key that stores all fields for this page. */
     protected string $option_name;

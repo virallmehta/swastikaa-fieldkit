@@ -3,7 +3,7 @@
  * Main plugin orchestrator. Bootstraps core systems, registers the Field Group CPT,
  * auto-discovers fields, and manages activation/deactivation routines.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Plugin {
+class SWFK_Plugin {
     /**
      * Single instance.
      */
@@ -34,7 +34,7 @@ class SNFS_Plugin {
     private function boot(): void {
         // 1. Core systems (always).
         add_action( 'init', [ $this, 'register_cpt' ] );
-        add_action( 'init', [ SNFS_Field_Registry::class, 'boot' ], 6 );
+        add_action( 'init', [ SWFK_Field_Registry::class, 'boot' ], 6 );
         // add_action( 'init', [ SF_Location_Rule_Registry::class, 'boot_core' ], 5 );
 
         // 2. Auto-discover fields.
@@ -42,12 +42,12 @@ class SNFS_Plugin {
 
         // 3. Admin only.
         if ( is_admin() ) {
-            new SNFS_Admin();  // Handles metaboxes, saves, assets.
+            new SWFK_Admin();  // Handles metaboxes, saves, assets.
         }
 
         // 4. Activation/deactivation.
-        register_activation_hook( SNFS_PLUGIN_FILE, [ $this, 'activate' ] );
-        register_deactivation_hook( SNFS_PLUGIN_FILE, [ $this, 'deactivate' ] );
+        register_activation_hook( SWFK_PLUGIN_FILE, [ $this, 'activate' ] );
+        register_deactivation_hook( SWFK_PLUGIN_FILE, [ $this, 'deactivate' ] );
     }
 
     /**
@@ -55,7 +55,7 @@ class SNFS_Plugin {
      */
     public function load_fields(): void {
  
-        SNFS_Field_Loader::load( SNFS_PLUGIN_DIR . 'fields' );
+        SWFK_Field_Loader::load( SWFK_PLUGIN_DIR . 'fields' );
   
     }
 
@@ -63,12 +63,12 @@ class SNFS_Plugin {
      * Field Group CPT.
      */
     public function register_cpt(): void {
-        register_post_type( 'snfs_field_group', [
-            'label'               => 'SwastiNexus Fields Studio Groups',
+        register_post_type( 'swfk_field_group', [
+            'label'               => 'Swastikaa Fieldkit Groups',
             'labels'              => [
-                'name'          => 'SwastiNexus Fields Studio Groups',
+                'name'          => 'Swastikaa Fieldkit Groups',
                 'singular_name' => 'Field Group',
-                'menu_name'     => 'SwastiNexus Fields Studio',
+                'menu_name'     => 'Swastikaa Fieldkit',
             ],
             'public'              => false,
             'show_ui'             => true,
@@ -77,8 +77,8 @@ class SNFS_Plugin {
             'supports'            => [ 'title' ],
             'menu_icon'           => 'dashicons-feedback',
             'capability_type'     => 'post',
-            'map_meta_cap'        => true,
-            'rewrite' => array( 'slug' => 'snfs' )
+            'map_meta_cap'        => true
+            // 'rewrite' => array( 'slug' => 'swfk' )
         ] );
 
         flush_rewrite_rules(); // Only during activation ideally.
@@ -96,6 +96,6 @@ class SNFS_Plugin {
 }
 
 // Global instance.
-function SNFS_Plugin(): SNFS_Plugin {
-    return SNFS_Plugin::instance();
+function SWFK_Plugin(): SWFK_Plugin {
+    return SWFK_Plugin::instance();
 }
