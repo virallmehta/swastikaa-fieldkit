@@ -3,7 +3,7 @@
  * Term context. Wraps a WP_Term object and provides the correct term meta
  * storage driver for field value read/write operations.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Term_Context implements SNFS_Context_Interface {
+class SWFK_Term_Context implements SWFK_Context_Interface {
 
     protected int    $term_id;
     protected string $taxonomy;
@@ -38,8 +38,8 @@ class SNFS_Term_Context implements SNFS_Context_Interface {
         return 'category'; // safe fallback
     }
 
-    public function storage(): SNFS_Storage_Interface {
-        return new SNFS_Term_Meta_Storage();
+    public function storage(): SWFK_Storage_Interface {
+        return new SWFK_Term_Meta_Storage();
     }
 
 }

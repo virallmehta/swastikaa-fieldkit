@@ -3,7 +3,7 @@
  * Options context. Represents an options page and provides the correct
  * wp_options storage driver for field value read/write operations.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Options_Context implements SNFS_Context_Interface {
+class SWFK_Options_Context implements SWFK_Context_Interface {
 
     protected string $page_slug;
 
@@ -35,18 +35,18 @@ class SNFS_Options_Context implements SNFS_Context_Interface {
         return $this->page_slug;
     }
 
-    public function storage(): SNFS_Storage_Interface {
-        // All fields for this page share one option key: 'snfs_opts_{slug}'
-        return new SNFS_Options_Storage( 'snfs_opts_' . $this->page_slug );
+    public function storage(): SWFK_Storage_Interface {
+        // All fields for this page share one option key: 'swfk_opts_{slug}'
+        return new SWFK_Options_Storage( 'swfk_opts_' . $this->page_slug );
     }
 
     /**
      * Convenience: get a single field value without instantiating a field object.
      *
-     * @param string $field_name  The field's name (without 'snfs_' prefix).
+     * @param string $field_name  The field's name (without 'swfk_' prefix).
      * @return mixed
      */
     public function get( string $field_name ) {
-        return $this->storage()->get( 'snfs_' . sanitize_key( $field_name ), 0 );
+        return $this->storage()->get( 'swfk_' . sanitize_key( $field_name ), 0 );
     }
 }

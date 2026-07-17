@@ -3,7 +3,7 @@
  * User context. Wraps a WP_User object and provides the correct user meta
  * storage driver for field value read/write operations.
  *
- * @package SwastiNexusFieldsStudio
+ * @package SwastikaaFieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_User_Context implements SNFS_Context_Interface {
+class SWFK_User_Context implements SWFK_Context_Interface {
 
     protected int $user_id;
 
@@ -30,7 +30,7 @@ class SNFS_User_Context implements SNFS_Context_Interface {
         return 'user_profile';
     }
 
-    public function storage(): SNFS_Storage_Interface {
-        return new SNFS_User_Meta_Storage();
+    public function storage(): SWFK_Storage_Interface {
+        return new SWFK_User_Meta_Storage();
     }
 }
