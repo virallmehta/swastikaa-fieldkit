@@ -3,7 +3,7 @@
  * Location rule interface. All rule evaluators must implement this interface,
  * providing a match() method to test a context against a set of rules.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

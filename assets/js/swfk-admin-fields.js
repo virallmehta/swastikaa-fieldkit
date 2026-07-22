@@ -1,5 +1,5 @@
 /**
- * Admin Fields JS
+ * Admin JS
  * Handles: Image, File, Gallery media pickers + Repeater + Group sync
  */
 (function($) {

@@ -3,7 +3,7 @@
  * Post context. Wraps a WP_Post object and provides the correct post meta
  * storage driver for field value read/write operations.
  *
- * @package SwastikaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

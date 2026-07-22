@@ -2,7 +2,7 @@
 /**
  * Color picker field. Renders an HTML5 color input; stores a hex colour string.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -32,7 +32,7 @@ class SWFK_Field_Color extends SWFK_Field_Base {
         $attrs['name']  = $meta_key;
         $attrs['value'] = esc_attr( $val );
 
-        echo '<input ' . $this->attrs_to_string( $attrs ) . ' />';
+        $this->render_input( $attrs );
 
         if ( ! empty( $this->args['instructions'] ) ) {
             echo '<p class="description">' . esc_html( $this->args['instructions'] ) . '</p>';

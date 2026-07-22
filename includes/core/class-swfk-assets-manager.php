@@ -3,7 +3,7 @@
  * Manages per-field-type CSS/JS asset registration and enqueueing.
  * Each field type may ship its own stylesheet and script inside its /assets directory.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

@@ -1,5 +1,8 @@
 {
   "type": "text",
   "label": "Text",
-  "class": "SWFK_Field_Text"
+  "class": "SWFK_Field_Text",
+  "category": "basic",
+  "supports": ["post", "term", "user","options"],
+  "pro": false
 }

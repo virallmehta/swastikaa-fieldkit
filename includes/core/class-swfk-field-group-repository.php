@@ -4,7 +4,7 @@
  * Provides static helpers to query field group CPT posts, their fields,
  * and location rules.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

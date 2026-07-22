@@ -3,7 +3,7 @@
  * Field type registry. Maps field type slugs to their PHP class names and labels.
  * All field types must be registered here before they can be used.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -52,6 +52,11 @@ class SWFK_Field_Registry {
 
         return true;
     }
+
+    // public static function get( string $type ): ?string {
+    //     $type = sanitize_key( strtolower( $type ) );
+    //     return self::$fields[ $type ] ?? null;
+    // }
 
     public static function get( string $type ): mixed {
         $type = sanitize_key( strtolower( $type ) );

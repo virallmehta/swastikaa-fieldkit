@@ -4,7 +4,7 @@
  * Provides a simple API for theme developers to retrieve and output field values
  * for posts, terms, users, and gallery/image/file attachments.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

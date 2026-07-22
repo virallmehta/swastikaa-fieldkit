@@ -2,7 +2,7 @@
 /**
  * Checkbox field. Renders a set of checkbox inputs; stores selected values as a comma-separated string or array.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,7 +33,7 @@ class SWFK_Field_Checkbox extends SWFK_Field_Base {
                 . ' id="' . esc_attr( $meta_key ) . '"'
                 . ' name="' . esc_attr( $meta_key ) . '"'
                 . ' class="swfk-input swfk-input-checkbox"'
-                . ' value="1" ' . $checked . ' />';
+                . ' value="1" ' . esc_attr( $checked ) . ' />';
             if ( ! empty( $this->args['message'] ) ) {
                 echo ' ' . esc_html( $this->args['message'] );
             }
@@ -45,12 +45,12 @@ class SWFK_Field_Checkbox extends SWFK_Field_Base {
             foreach ( $choices as $val => $lbl ) {
                 $checked = in_array( (string) $val, array_map( 'strval', $selected ), true ) ? 'checked' : '';
                 $uid     = esc_attr( $meta_key . '_' . sanitize_key( $val ) );
-                echo '<li style="margin-bottom:4px;"><label for="' . $uid . '">';
+                echo '<li style="margin-bottom:4px;"><label for="' . esc_attr( $uid ) . '">';
                 echo '<input type="checkbox"'
-                    . ' id="' . $uid . '"'
+                    . ' id="' . esc_attr( $uid ) . '"'
                     . ' name="' . esc_attr( $meta_key ) . '[]"'
                     . ' class="swfk-input swfk-input-checkbox"'
-                    . ' value="' . esc_attr( $val ) . '" ' . $checked . ' />';
+                    . ' value="' . esc_attr( $val ) . '" ' . esc_attr( $checked ) . ' />';
                 echo ' ' . esc_html( $lbl );
                 echo '</label></li>';
             }

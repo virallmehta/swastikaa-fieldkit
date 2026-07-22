@@ -4,7 +4,7 @@
  * Scans each field subdirectory for a field.json manifest and loads the
  * corresponding class file, registering it with SWFK_Field_Registry.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

@@ -2,7 +2,7 @@
 /**
  * Gallery field. Renders a media library multi-picker; stores attachment IDs as a comma-separated string.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -28,21 +28,21 @@ class SWFK_Field_Gallery extends SWFK_Field_Base {
 
     public function render( string $meta_key, $value ): void {
         $ids = $value ? array_filter( array_map( 'absint', explode( ',', $value ) ) ) : [];
-        $uid = 'snfs-gallery-' . sanitize_html_class( $meta_key );
+        $uid = 'swfk-gallery-' . sanitize_html_class( $meta_key );
         ?>
-        <div class="snfs-gallery-field" id="<?php echo esc_attr( $uid ); ?>">
-            <div class="snfs-gallery-images" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+        <div class="swfk-gallery-field" id="<?php echo esc_attr( $uid ); ?>">
+            <div class="swfk-gallery-images" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
                 <?php foreach ( $ids as $id ) :
                     $url = wp_get_attachment_image_url( $id, $this->args['preview_size'] );
                     if ( ! $url ) continue;
                     ?>
-                    <div class="snfs-gallery-item"
+                    <div class="swfk-gallery-item"
                          data-id="<?php echo esc_attr( $id ); ?>"
                          style="position:relative;">
                         <img src="<?php echo esc_url( $url ); ?>"
                              style="width:80px;height:80px;object-fit:cover;display:block;" />
                         <button type="button"
-                                class="snfs-gallery-remove"
+                                class="swfk-gallery-remove"
                                 data-id="<?php echo esc_attr( $id ); ?>"
                                 style="position:absolute;top:2px;right:2px;padding:0 4px;cursor:pointer;">
                             &times;
@@ -55,10 +55,10 @@ class SWFK_Field_Gallery extends SWFK_Field_Base {
                    name="<?php echo esc_attr( $meta_key ); ?>"
                    value="<?php echo esc_attr( implode( ',', $ids ) ); ?>" />
             <button type="button"
-                    class="button snfs-gallery-add-btn"
+                    class="button swfk-gallery-add-btn"
                     data-field="<?php echo esc_attr( $meta_key ); ?>"
                     data-container="<?php echo esc_attr( $uid ); ?>">
-                <?php esc_html_e( 'Add Images', 'snfs' ); ?>
+                <?php esc_html_e( 'Add Images', 'swastikaa-fieldkit' ); ?>
             </button>
         </div>
         <?php

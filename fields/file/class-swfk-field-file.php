@@ -2,7 +2,7 @@
 /**
  * File upload field. Renders a media library picker; stores the attachment ID.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -33,10 +33,10 @@ class SWFK_Field_File extends SWFK_Field_Base {
             $file_url = wp_get_attachment_url( $attachment_id );
             $filename = basename( get_attached_file( $attachment_id ) );
         }
-        $uid = 'snfs-file-' . sanitize_html_class( $meta_key );
+        $uid = 'swfk-file-' . sanitize_html_class( $meta_key );
         ?>
-        <div class="snfs-file-field" id="<?php echo esc_attr( $uid ); ?>">
-            <div class="snfs-file-info" style="margin-bottom:8px;">
+        <div class="swfk-file-field" id="<?php echo esc_attr( $uid ); ?>">
+            <div class="swfk-file-info" style="margin-bottom:8px;">
                 <?php if ( $file_url ) : ?>
                     <a href="<?php echo esc_url( $file_url ); ?>" target="_blank">
                         <?php echo esc_html( $filename ); ?>
@@ -48,19 +48,19 @@ class SWFK_Field_File extends SWFK_Field_Base {
                    name="<?php echo esc_attr( $meta_key ); ?>"
                    value="<?php echo esc_attr( $attachment_id ?: '' ); ?>" />
             <button type="button"
-                    class="button snfs-file-upload-btn"
+                    class="button swfk-file-upload-btn"
                     data-field="<?php echo esc_attr( $meta_key ); ?>"
                     data-preview="<?php echo esc_attr( $uid ); ?>"
                     data-type="<?php echo esc_attr( $this->args['allowed_types'] ); ?>">
-                <?php echo $attachment_id ? esc_html__( 'Change File', 'snfs' ) : esc_html__( 'Select File', 'snfs' ); ?>
+                <?php echo $attachment_id ? esc_html__( 'Change File', 'swastikaa-fieldkit' ) : esc_html__( 'Select File', 'swastikaa-fieldkit' ); ?>
             </button>
             <?php if ( $attachment_id ) : ?>
                 <button type="button"
-                        class="button snfs-file-remove-btn"
+                        class="button swfk-file-remove-btn"
                         data-field="<?php echo esc_attr( $meta_key ); ?>"
                         data-preview="<?php echo esc_attr( $uid ); ?>"
                         style="margin-left:4px;">
-                    <?php esc_html_e( 'Remove', 'snfs' ); ?>
+                    <?php esc_html_e( 'Remove', 'swastikaa-fieldkit' ); ?>
                 </button>
             <?php endif; ?>
         </div>

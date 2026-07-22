@@ -2,7 +2,7 @@
 /**
  * Select dropdown field. Renders an HTML select element from a user-defined choices list; stores the selected value.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -38,20 +38,22 @@ class SWFK_Field_Select extends SWFK_Field_Base {
         $attrs['id']   = $meta_key;
         $attrs['name'] = $name;
         unset( $attrs['placeholder'] ); // not valid on <select>
-        if ( $multiple ) $attrs['multiple'] = true;
+        if ( $multiple ) {
+            $attrs['multiple'] = true;
+        }
 
-        echo '<select ' . $this->attrs_to_string( $attrs ) . '>';
-
+        // Build options HTML separately so we can pass it through render_select() safely.
+        $options_html = '';
         if ( ! $multiple ) {
-            echo '<option value="">' . esc_html( $this->args['placeholder'] ) . '</option>';
+            $options_html .= '<option value="">' . esc_html( $this->args['placeholder'] ) . '</option>';
         }
-
         foreach ( $choices as $val => $lbl ) {
-            $sel = in_array( (string) $val, array_map( 'strval', $selected ), true ) ? ' selected' : '';
-            echo '<option value="' . esc_attr( $val ) . '"' . $sel . '>' . esc_html( $lbl ) . '</option>';
+            $is_sel       = in_array( (string) $val, array_map( 'strval', $selected ), true );
+            $options_html .= '<option value="' . esc_attr( $val ) . '"' . ( $is_sel ? ' selected' : '' ) . '>'
+                           . esc_html( $lbl ) . '</option>';
         }
 
-        echo '</select>';
+        $this->render_select( $attrs, $options_html );
 
         if ( ! empty( $this->args['instructions'] ) ) {
             echo '<p class="description">' . esc_html( $this->args['instructions'] ) . '</p>';

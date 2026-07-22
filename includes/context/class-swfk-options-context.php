@@ -3,7 +3,7 @@
  * Options context. Represents an options page and provides the correct
  * wp_options storage driver for field value read/write operations.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

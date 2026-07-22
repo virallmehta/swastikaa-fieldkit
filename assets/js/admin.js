@@ -4,7 +4,7 @@
 jQuery(function ($) {
     'use strict';
 
-    var SNFS = {
+    var SWFK = {
 
         init: function () {
             this.bindFieldBuilder();
@@ -21,15 +21,15 @@ jQuery(function ($) {
         bindFieldBuilder: function () {
             $(document).on('click', '#swfk-add-field', function (e) {
                 e.preventDefault();
-                SNFS.addField();
+                SWFK.addField();
             });
 
             $(document).on('click', '.swfk-field-remove', function (e) {
                 e.preventDefault();
                 if ( confirm('Remove this field?') ) {
                     $(this).closest('.swfk-field-row').remove();
-                    SNFS.checkEmpty();
-                    SNFS.reindex();
+                    SWFK.checkEmpty();
+                    SWFK.reindex();
                 }
             });
         },
@@ -140,7 +140,7 @@ jQuery(function ($) {
                     placeholder: 'swfk-sortable-placeholder',
                     tolerance: 'pointer',
                     update: function () {
-                        SNFS.reindex();
+                        SWFK.reindex();
                     },
                 });
             }
@@ -160,7 +160,7 @@ jQuery(function ($) {
                         var $el = $(this);
                         $el.find('.swfk-rule-type').val(rule.type);
                         $el.find('.swfk-rule-operator').val(rule.operator);
-                        SNFS.populateRuleValues($el, rule.type, rule.value);
+                        SWFK.populateRuleValues($el, rule.type, rule.value);
                     });
                 } catch (e) { /* ignore */ }
             }
@@ -168,25 +168,25 @@ jQuery(function ($) {
             // Add rule
             $(document).on('click', '#swfk-add-location-rule', function (e) {
                 e.preventDefault();
-                SNFS.addLocationRule();
+                SWFK.addLocationRule();
             });
 
             // Remove rule
             $(document).on('click', '.swfk-rule-remove', function (e) {
                 e.preventDefault();
                 $(this).closest('.swfk-location-rule').remove();
-                SNFS.saveRulesJSON();
+                SWFK.saveRulesJSON();
             });
 
             // Type changed → repopulate values
             $(document).on('change', '.swfk-rule-type', function () {
                 var $rule = $(this).closest('.swfk-location-rule');
-                SNFS.populateRuleValues($rule, $(this).val(), '');
-                SNFS.saveRulesJSON();
+                SWFK.populateRuleValues($rule, $(this).val(), '');
+                SWFK.saveRulesJSON();
             });
 
             $(document).on('change', '.swfk-rule-operator, .swfk-rule-value', function () {
-                SNFS.saveRulesJSON();
+                SWFK.saveRulesJSON();
             });
         },
 
@@ -201,8 +201,8 @@ jQuery(function ($) {
             $('#swfk-location-rules-container').append(html);
 
             var $new = $('.swfk-location-rule:last');
-            SNFS.populateRuleValues($new, 'post_type', '');
-            SNFS.saveRulesJSON();
+            SWFK.populateRuleValues($new, 'post_type', '');
+            SWFK.saveRulesJSON();
         },
 
         populateRuleValues: function ($rule, type, selectedValue) {
@@ -210,7 +210,7 @@ jQuery(function ($) {
             $select.empty();
 
             var options = {};
-            var data    = window.sfLocationDataSet || {};
+            var data    = window.swfkLocationDataSet || {};
 
             if (type === 'post_type') {
                 options = data.postTypes || {};
@@ -273,7 +273,7 @@ jQuery(function ($) {
 
     };
 
-    SNFS.init();
+    SWFK.init();
 
     // Show/hide choices textarea when field type changes
     var choiceTypes = ['checkbox', 'radio', 'select'];
@@ -299,12 +299,12 @@ jQuery(function ($) {
 
     // Serialize fields to JSON just before WordPress submits the form
     $(document).on('click', '#publish, #save-post', function () {
-        SNFS.serializeFieldsToJSON();
-        SNFS.saveRulesJSON();
+        SWFK.serializeFieldsToJSON();
+        SWFK.saveRulesJSON();
     });
     $('form#post').on('submit', function () {
-        SNFS.serializeFieldsToJSON();
-        SNFS.saveRulesJSON();
+        SWFK.serializeFieldsToJSON();
+        SWFK.saveRulesJSON();
     });
 
 });

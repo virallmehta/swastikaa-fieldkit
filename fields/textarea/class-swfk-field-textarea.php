@@ -2,7 +2,7 @@
 /**
  * Textarea field. Renders a multi-line textarea input; stores a plain text string.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -31,9 +31,7 @@ class SWFK_Field_Textarea extends SWFK_Field_Base {
         $attrs['rows'] = $this->args['rows'];
         unset( $attrs['value'] );
 
-        echo '<textarea ' . $this->attrs_to_string( $attrs ) . '>'
-            . esc_textarea( $value )
-            . '</textarea>';
+        $this->render_textarea( $attrs, esc_textarea( $value ) );
 
         if ( ! empty( $this->args['instructions'] ) ) {
             echo '<p class="description">' . esc_html( $this->args['instructions'] ) . '</p>';

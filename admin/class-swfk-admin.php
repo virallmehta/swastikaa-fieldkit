@@ -1,10 +1,10 @@
 <?php
 /**
- * Admin — Field Group Builder + Runtime Field Display.
+ * Swastikaa Fieldkit Admin — Field Group Builder + Runtime Field Display.
  * Handles metaboxes, field group saves, asset enqueueing, and field rendering across
  * posts, taxonomy terms, users, and options screens.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -96,6 +96,12 @@ class SWFK_Admin {
             ]);
         }
 
+        // Ensure TinyMCE / wp_editor is available on all admin post-edit screens
+        // (required for the WYSIWYG field type).
+        if ( $is_runtime_screen ) {
+            wp_enqueue_editor();
+        }
+
         if ( $screen->post_type !== 'swfk_field_group' ) {
             return;
         }
@@ -126,7 +132,7 @@ class SWFK_Admin {
             $taxonomies[ $tax->name ] = $tax->label;
         }
 
-        wp_localize_script( 'swfk-admin-js', 'sfLocationDataSet', [
+        wp_localize_script( 'swfk-admin-js', 'swfkLocationDataSet', [
             'postTypes'  => $post_types,
             'taxonomies' => $taxonomies,
         ] );
@@ -139,7 +145,7 @@ class SWFK_Admin {
     public function add_field_group_metaboxes(): void {
         add_meta_box(
             'swfk-field-builder',
-            'SwastiNexus Field Builder',
+            'Swastikaa Fieldkit Field Builder',
             [ $this, 'render_field_builder' ],
             'swfk_field_group',
             'normal',
@@ -421,7 +427,7 @@ class SWFK_Admin {
 
     public function save_field_group( int $post_id ): void {
         if ( ! isset( $_POST['swfk_fields_nonce'] ) ||
-             ! wp_verify_nonce( $_POST['swfk_fields_nonce'], 'swfk_save_field_group' ) ) {
+             ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['swfk_fields_nonce'] ) ), 'swfk_save_field_group' ) ) {
             return;
         }
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -432,8 +438,11 @@ class SWFK_Admin {
         }
 
         $fields = [];
-        if ( ! empty( $_POST['swfk_fields'] ) ) {
-            $decoded = json_decode( wp_unslash( $_POST['swfk_fields'] ), true );
+        // Assign to variable first so $_POST is accessed exactly once.
+        // wp_unslash() removes magic quotes; every decoded field is sanitized individually below.
+        $raw_fields_json = isset( $_POST['swfk_fields'] ) ? wp_unslash( $_POST['swfk_fields'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON string, each decoded field is sanitized below.
+        if ( ! empty( $raw_fields_json ) ) {
+            $decoded = json_decode( $raw_fields_json, true );
             if ( is_array( $decoded ) ) {
                 foreach ( $decoded as $field ) {
                     if ( empty( $field['name'] ) ) {
@@ -458,8 +467,10 @@ class SWFK_Admin {
         update_post_meta( $post_id, 'swfk_fields', $fields );
 
         $rules = [];
-        if ( ! empty( $_POST['swfk_location_rules'] ) ) {
-            $decoded = json_decode( wp_unslash( $_POST['swfk_location_rules'] ), true );
+        // Same pattern: single access, unslash immediately, sanitize each key after decode.
+        $raw_rules_json = isset( $_POST['swfk_location_rules'] ) ? wp_unslash( $_POST['swfk_location_rules'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON string, each decoded rule field is sanitized below.
+        if ( ! empty( $raw_rules_json ) ) {
+            $decoded = json_decode( $raw_rules_json, true );
             if ( is_array( $decoded ) ) {
                 foreach ( $decoded as $rule ) {
                     if ( empty( $rule['type'] ) ) {
@@ -507,7 +518,13 @@ class SWFK_Admin {
         $fields  = $metabox['args']['fields'] ?? [];
         $context = new SWFK_Post_Context( $post->ID, get_post_type( $post->ID ) ?: $post->post_type );
 
-        wp_nonce_field( 'swfk_save_post_fields', 'swfk_post_fields_nonce' );
+        // Output the nonce only once per page load — multiple metaboxes from this
+        // plugin would otherwise emit duplicate hidden fields with the same name.
+        static $post_nonce_done = false;
+        if ( ! $post_nonce_done ) {
+            wp_nonce_field( 'swfk_save_post_fields', 'swfk_post_fields_nonce' );
+            $post_nonce_done = true;
+        }
 
         if ( empty( $fields ) ) {
             echo '<p>No fields in this group.</p>';
@@ -527,7 +544,7 @@ class SWFK_Admin {
 
     public function save_post_fields( int $post_id ): void {
         if ( ! isset( $_POST['swfk_post_fields_nonce'] ) ||
-             ! wp_verify_nonce( $_POST['swfk_post_fields_nonce'], 'swfk_save_post_fields' ) ) {
+             ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['swfk_post_fields_nonce'] ) ), 'swfk_save_post_fields' ) ) {
             return;
         }
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -677,7 +694,7 @@ class SWFK_Admin {
 
     private function save_taxonomy_fields( int $term_id, string $taxonomy ): void {
         if ( ! isset( $_POST['swfk_tax_nonce'] ) ||
-             ! wp_verify_nonce( $_POST['swfk_tax_nonce'], 'swfk_save_tax_fields' ) ) {
+             ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['swfk_tax_nonce'] ) ), 'swfk_save_tax_fields' ) ) {
             return;
         }
         SWFK_Field_Group_Repository::clear_cache();
@@ -742,7 +759,7 @@ class SWFK_Admin {
 
     public function save_user_fields( int $user_id ): void {
         if ( ! isset( $_POST['swfk_user_fields_nonce'] ) ||
-             ! wp_verify_nonce( $_POST['swfk_user_fields_nonce'], 'swfk_save_user_fields' ) ) {
+             ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['swfk_user_fields_nonce'] ) ), 'swfk_save_user_fields' ) ) {
             return;
         }
         if ( ! current_user_can( 'edit_user', $user_id ) ) {
@@ -785,23 +802,43 @@ class SWFK_Admin {
         echo '</td></tr>';
     }
 
+    /**
+     * Loop all field groups matching $context and persist each field value from $_POST.
+     *
+     * Fields that are NOT present in $_POST are intentionally skipped — this preserves
+     * existing values for conditional fields or fields rendered on other screens.
+     * True/False fields always POST (hidden input + checkbox), so they are always saved.
+     *
+     * @param SWFK_Context_Interface $context
+     * @since 1.0.0
+     */
     private function save_fields_for_context( SWFK_Context_Interface $context ): void {
+        /*
+         * Nonce is verified by each public caller before this private method is called:
+         *   save_post_fields()     verifies  swfk_post_fields_nonce
+         *   save_taxonomy_fields() verifies  swfk_tax_nonce
+         *   save_user_fields()     verifies  swfk_user_fields_nonce
+         * PHPCS cannot see the cross-method nonce check, so we suppress the notice here.
+         */
+
         $groups = SWFK_Field_Group_Repository::get_for_context( $context );
 
         foreach ( $groups as $group_data ) {
             foreach ( $group_data['fields'] as $field ) {
                 $meta_key = 'swfk_' . $field['name'];
-                $in_post  = isset( $_POST[ $meta_key ] );
 
-                if ( ! $in_post ) {
+                // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified by caller; value sanitized immediately below.
+                if ( ! isset( $_POST[ $meta_key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
                     continue;
                 }
 
-                $raw      = wp_unslash( $_POST[ $meta_key ] );
+                // Unslash immediately; sanitize via the field type's own sanitize() method below.
+                $raw = wp_unslash( $_POST[ $meta_key ] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
                 $instance = SWFK_Field_Registry::get_instance( $field['type'], $field, $context );
                 $value    = $instance
-                    ? $instance->sanitize( $raw )
-                    : sanitize_text_field( $raw );
+                    ? $instance->sanitize( $raw )  // field type sanitizes appropriately (e.g. sanitize_email, wp_kses_post, absint …)
+                    : sanitize_text_field( (string) $raw );
 
                 $context->storage()->save( $meta_key, $context->get_id(), $value );
             }

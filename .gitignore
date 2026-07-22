@@ -3,3 +3,5 @@ swastikaa-logger.php
 /logs
 *.zip
 .DS_Store
+includes/core/*.bak
+fields/*/*.bak

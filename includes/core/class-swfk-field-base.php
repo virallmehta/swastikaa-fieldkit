@@ -1,10 +1,10 @@
 <?php
 /**
- * Abstract base class for every field type.
+ * Abstract base class for every SwastiNexus Fields Studio field type.
  * Encapsulates field identity, context, rendering, sanitisation, validation,
  * and storage. All concrete field types extend this class.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -187,6 +187,7 @@ abstract class SWFK_Field_Base {
         $attrs['name']  = $meta_key;
         $attrs['value'] = $value;
 
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attrs_to_string() escapes all values via esc_attr()
         echo '<input ' . $this->attrs_to_string( $attrs ) . ' />';
 
         if ( ! empty( $this->args['instructions'] ) ) {
@@ -255,7 +256,8 @@ abstract class SWFK_Field_Base {
         if ( ! empty( $this->args['required'] ) && ( $value === '' || $value === null ) ) {
             return new WP_Error(
                 'swfk_field_required',
-                sprintf( __( 'The field "%s" is required.', 'swfk' ), $this->label )
+                /* translators: field label */
+                sprintf( __( 'The field "%s" is required.', 'swastikaa-fieldkit' ), $this->label )
             );
         }
         return true;
@@ -301,6 +303,101 @@ abstract class SWFK_Field_Base {
             $html .= ' ' . esc_attr( $key ) . '="' . esc_attr( $val ) . '"';
         }
         return trim( $html );
+    }
+
+    /**
+     * Echo a safe <input> element built from an attributes array.
+     * attrs_to_string() already escapes all keys/values with esc_attr(); wrapping
+     * the result in a second esc_attr() would encode the internal quote characters
+     * and break the attribute syntax — so we use wp_kses() instead.
+     *
+     * @param array $attrs  Attribute key→value pairs.
+     * @since 1.0.0
+     */
+    protected function render_input( array $attrs ): void {
+        $allowed = [
+            'input' => [
+                'type'         => [],
+                'id'           => [],
+                'name'         => [],
+                'value'        => [],
+                'class'        => [],
+                'placeholder'  => [],
+                'required'     => [],
+                'min'          => [],
+                'max'          => [],
+                'step'         => [],
+                'checked'      => [],
+                'readonly'     => [],
+                'disabled'     => [],
+                'style'        => [],
+                'oninput'      => [],
+                'data-field'   => [],
+                'data-preview' => [],
+            ],
+        ];
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attrs_to_string() escapes all values via esc_attr()
+        echo wp_kses( '<input ' . $this->attrs_to_string( $attrs ) . ' />', $allowed );
+    }
+
+    /**
+     * Echo a safe <textarea> element.
+     *
+     * @param array  $attrs    Attribute key→value pairs (no "value" key — content goes in $content).
+     * @param string $content  Already-escaped textarea content (use esc_textarea() before passing).
+     * @since 1.0.0
+     */
+    protected function render_textarea( array $attrs, string $content ): void {
+        $allowed = [
+            'textarea' => [
+                'id'          => [],
+                'name'        => [],
+                'class'       => [],
+                'rows'        => [],
+                'cols'        => [],
+                'placeholder' => [],
+                'required'    => [],
+                'readonly'    => [],
+                'disabled'    => [],
+                'style'       => [],
+            ],
+        ];
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attrs_to_string() escapes via esc_attr(); $content is pre-escaped by caller
+        echo wp_kses(
+            '<textarea ' . $this->attrs_to_string( $attrs ) . '>' . $content . '</textarea>',
+            $allowed
+        );
+    }
+
+    /**
+     * Echo a safe <select> element with pre-built <option> HTML.
+     *
+     * @param array  $attrs        Attribute key→value pairs.
+     * @param string $options_html Already-escaped <option> markup.
+     * @since 1.0.0
+     */
+    protected function render_select( array $attrs, string $options_html ): void {
+        $allowed = [
+            'select' => [
+                'id'       => [],
+                'name'     => [],
+                'class'    => [],
+                'multiple' => [],
+                'required' => [],
+                'disabled' => [],
+                'style'    => [],
+            ],
+            'option' => [
+                'value'    => [],
+                'selected' => [],
+                'disabled' => [],
+            ],
+        ];
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attrs_to_string() escapes via esc_attr(); $options_html is pre-escaped by caller
+        echo wp_kses(
+            '<select ' . $this->attrs_to_string( $attrs ) . '>' . $options_html . '</select>',
+            $allowed
+        );
     }
 
     /**

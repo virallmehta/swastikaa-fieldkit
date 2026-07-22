@@ -3,7 +3,7 @@
  * Caches field template paths for fast lookup.
  * Maintains a map of field type slugs to their template.php file paths.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

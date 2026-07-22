@@ -3,7 +3,7 @@
  * Storage interface. All storage drivers (post meta, term meta, user meta, options)
  * must implement this interface to ensure a consistent read/write API.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

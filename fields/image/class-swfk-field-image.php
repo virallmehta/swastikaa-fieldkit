@@ -2,7 +2,7 @@
 /**
  * Image field. Renders a media library image picker; stores the attachment ID.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -30,10 +30,10 @@ class SWFK_Field_Image extends SWFK_Field_Base {
         $preview_url   = $attachment_id
             ? wp_get_attachment_image_url( $attachment_id, $this->args['preview_size'] )
             : '';
-        $uid = 'snfs-image-' . sanitize_html_class( $meta_key );
+        $uid = 'swfk-image-' . sanitize_html_class( $meta_key );
         ?>
-        <div class="snfs-image-field" id="<?php echo esc_attr( $uid ); ?>">
-            <div class="snfs-image-preview" style="margin-bottom:8px;">
+        <div class="swfk-image-field" id="<?php echo esc_attr( $uid ); ?>">
+            <div class="swfk-image-preview" style="margin-bottom:8px;">
                 <?php if ( $preview_url ) : ?>
                     <img src="<?php echo esc_url( $preview_url ); ?>"
                          style="max-width:200px;max-height:200px;display:block;" />
@@ -44,18 +44,18 @@ class SWFK_Field_Image extends SWFK_Field_Base {
                    name="<?php echo esc_attr( $meta_key ); ?>"
                    value="<?php echo esc_attr( $attachment_id ?: '' ); ?>" />
             <button type="button"
-                    class="button snfs-image-upload-btn"
+                    class="button swfk-image-upload-btn"
                     data-field="<?php echo esc_attr( $meta_key ); ?>"
                     data-preview="<?php echo esc_attr( $uid ); ?>">
-                <?php echo $attachment_id ? esc_html__( 'Change Image', 'snfs' ) : esc_html__( 'Select Image', 'snfs' ); ?>
+                <?php echo $attachment_id ? esc_html__( 'Change Image', 'swastikaa-fieldkit' ) : esc_html__( 'Select Image', 'swastikaa-fieldkit' ); ?>
             </button>
             <?php if ( $attachment_id ) : ?>
                 <button type="button"
-                        class="button snfs-image-remove-btn"
+                        class="button swfk-image-remove-btn"
                         data-field="<?php echo esc_attr( $meta_key ); ?>"
                         data-preview="<?php echo esc_attr( $uid ); ?>"
                         style="margin-left:4px;">
-                    <?php esc_html_e( 'Remove', 'snfs' ); ?>
+                    <?php esc_html_e( 'Remove', 'swastikaa-fieldkit' ); ?>
                 </button>
             <?php endif; ?>
         </div>

@@ -2,7 +2,7 @@
 /**
  * True/False toggle field. Renders a styled checkbox toggle; stores 1 (true) or 0 (false).
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -28,20 +28,20 @@ class SWFK_Field_True_False extends SWFK_Field_Base {
     public function render( string $meta_key, $value ): void {
         $checked = ! empty( $value ) && $value !== '0' ? 'checked' : '';
         ?>
-        <div class="snfs-true-false">
+        <div class="swfk-true-false">
             <input type="hidden" name="<?php echo esc_attr( $meta_key ); ?>" value="0" />
-            <label class="snfs-toggle">
+            <label class="swfk-toggle">
                 <input
                     type="checkbox"
                     id="<?php echo esc_attr( $meta_key ); ?>"
                     name="<?php echo esc_attr( $meta_key ); ?>"
                     value="1"
-                    class="snfs-input snfs-input-true-false"
-                    <?php echo $checked; ?>
+                    class="swfk-input swfk-input-true-false"
+                    <?php echo esc_html( $checked ); ?>
                 />
-                <span class="snfs-toggle-slider"></span>
+                <span class="swfk-toggle-slider"></span>
                 <?php if ( ! empty( $this->args['message'] ) ) : ?>
-                    <span class="snfs-toggle-label"><?php echo esc_html( $this->args['message'] ); ?></span>
+                    <span class="swfk-toggle-label"><?php echo esc_html( $this->args['message'] ); ?></span>
                 <?php endif; ?>
             </label>
         </div>

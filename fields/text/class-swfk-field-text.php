@@ -2,7 +2,7 @@
 /**
  * Text field. Renders a standard HTML text input; stores a plain text string.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

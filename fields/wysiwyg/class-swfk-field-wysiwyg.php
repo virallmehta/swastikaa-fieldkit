@@ -2,7 +2,7 @@
 /**
  * WYSIWYG editor field. Renders the WordPress TinyMCE/block editor; stores HTML content.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -27,7 +27,9 @@ class SWFK_Field_Wysiwyg extends SWFK_Field_Base {
     }
 
     public function render( string $meta_key, $value ): void {
-        $editor_id = sanitize_html_class( str_replace( [ '-', 'snfs_' ], [ '_', 'sf' ], $meta_key ) );
+        // Generate a valid HTML4 ID for TinyMCE: must start with a letter, only letters/digits/underscores.
+        // We strip the 'swfk_' prefix and prefix with 'swfkeditor_' to guarantee uniqueness.
+        $editor_id = 'swfkeditor_' . sanitize_html_class( str_replace( [ '-', 'swfk_' ], [ '_', '' ], $meta_key ) );
 
         wp_editor( $value ?: '', $editor_id, [
             'textarea_name' => $meta_key,

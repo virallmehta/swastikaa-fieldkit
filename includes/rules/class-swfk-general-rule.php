@@ -4,7 +4,7 @@
  * Determines whether a field group should be displayed for a given post type,
  * taxonomy, user profile, or options page.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

@@ -3,7 +3,7 @@
  * Loads field templates from field directories.
  * Supports theme overrides and falls back to the plugin field directory.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -31,7 +31,7 @@ class SWFK_Template_Loader {
         ob_start();
         extract($data, EXTR_SKIP);
         include $template_path;
-        echo ob_get_clean();
+        echo wp_kses_post( ob_get_clean() );
 
         return true;
     }

@@ -3,7 +3,7 @@
  * Options storage driver. Reads and writes field values using get_option()
  * and update_option() with the swfk_ key prefix.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

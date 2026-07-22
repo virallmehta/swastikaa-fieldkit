@@ -3,7 +3,7 @@
  * Context interface. All context objects (post, term, user, options) must implement
  * this interface to provide a consistent API for field group matching and storage.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -17,6 +17,7 @@ interface SWFK_Context_Interface {
      * The numeric record ID.
      * Returns 0 for contexts that are not record-based (e.g. options pages).
      */
+    
     public function get_id(): int;
 
     /**

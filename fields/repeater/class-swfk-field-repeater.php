@@ -2,7 +2,7 @@
 /**
  * Repeater field. Renders a repeatable group of sub-fields; stores data as a serialised array.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -48,15 +48,15 @@ class SWFK_Field_Repeater extends SWFK_Field_Base {
             $rows = $value;
         }
 
-        $uid = 'snfs-repeater-' . sanitize_html_class( $meta_key );
+        $uid = 'swfk-repeater-' . sanitize_html_class( $meta_key );
         ?>
-        <div class="snfs-repeater-field" id="<?php echo esc_attr( $uid ); ?>"
+        <div class="swfk-repeater-field" id="<?php echo esc_attr( $uid ); ?>"
              data-field="<?php echo esc_attr( $meta_key ); ?>">
 
-            <div class="snfs-repeater-rows">
+            <div class="swfk-repeater-rows">
                 <?php if ( empty( $rows ) ) : ?>
-                    <p class="snfs-repeater-empty" style="color:#999;">
-                        <?php esc_html_e( 'No rows yet. Click the button below to add one.', 'snfs' ); ?>
+                    <p class="swfk-repeater-empty" style="color:#999;">
+                        <?php esc_html_e( 'No rows yet. Click the button below to add one.', 'swastikaa-fieldkit' ); ?>
                     </p>
                 <?php else : ?>
                     <?php foreach ( $rows as $i => $row ) : ?>
@@ -66,7 +66,7 @@ class SWFK_Field_Repeater extends SWFK_Field_Base {
             </div>
 
             <button type="button"
-                    class="button snfs-repeater-add"
+                    class="button swfk-repeater-add"
                     data-field="<?php echo esc_attr( $meta_key ); ?>"
                     style="margin-top:8px;">
                 + <?php echo esc_html( $this->args['button_label'] ); ?>
@@ -75,7 +75,7 @@ class SWFK_Field_Repeater extends SWFK_Field_Base {
             <?php /* Hidden JSON field synced by JS on save */ ?>
             <input type="hidden"
                    name="<?php echo esc_attr( $meta_key ); ?>"
-                   class="snfs-repeater-input"
+                   class="swfk-repeater-input"
                    value="<?php echo esc_attr( $value ?: '[]' ); ?>" />
         </div>
         <?php
@@ -86,31 +86,35 @@ class SWFK_Field_Repeater extends SWFK_Field_Base {
 
     private function render_row( string $meta_key, array $sub_fields, int $index, array $row_data ): void {
         ?>
-        <div class="snfs-repeater-row"
+        <div class="swfk-repeater-row"
              style="border:1px solid #ddd;padding:12px;margin-bottom:8px;position:relative;">
-            <div class="snfs-repeater-row-handle"
+            <div class="swfk-repeater-row-handle"
                  style="cursor:move;color:#999;margin-bottom:8px;">
-                &#8597; <?php printf( esc_html__( 'Row %d', 'snfs' ), $index + 1 ); ?>
+                
+                &#8597; <?php 
+                /* translators: row number */
+                printf( esc_html__( 'Row %d', 'swastikaa-fieldkit' ), esc_attr( $index ) + 1 ); 
+                ?>
             </div>
             <button type="button"
-                    class="snfs-repeater-remove button-link"
+                    class="swfk-repeater-remove button-link"
                     style="position:absolute;top:8px;right:8px;color:#b32d2e;">
-                &times; <?php esc_html_e( 'Remove', 'snfs' ); ?>
+                &times; <?php esc_html_e( 'Remove', 'swastikaa-fieldkit' ); ?>
             </button>
-            <div class="snfs-repeater-row-fields">
-                <?php foreach ( $sub_fields as $sf ) :
-                    $snfs_name  = sanitize_key( $sub_field['name'] ?? '' );
-                    $snfs_label = $sub_field['label'] ?? $snfs_name;
-                    $snfs_val   = $row_data[ $snfs_name ] ?? '';
+            <div class="swfk-repeater-row-fields">
+                <?php foreach ( $sub_fields as $sub_field ) :
+                    $swfk_name  = sanitize_key( $sub_field['name'] ?? '' );
+                    $swfk_label = $sub_field['label'] ?? $swfk_name;
+                    $swfk_val   = $row_data[ $swfk_name ] ?? '';
                     ?>
                     <div style="margin-bottom:8px;">
                         <label style="display:block;font-weight:600;margin-bottom:4px;">
-                            <?php echo esc_html( $snfs_label ); ?>
+                            <?php echo esc_html( $swfk_label ); ?>
                         </label>
                         <input type="text"
-                               class="large-text snfs-repeater-subfield"
-                               data-key="<?php echo esc_attr( $snfs_name ); ?>"
-                               value="<?php echo esc_attr( $snfs_val ); ?>" />
+                               class="large-text swfk-repeater-subfield"
+                               data-key="<?php echo esc_attr( $swfk_name ); ?>"
+                               value="<?php echo esc_attr( $swfk_val ); ?>" />
                     </div>
                 <?php endforeach; ?>
             </div>

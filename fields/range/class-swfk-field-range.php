@@ -1,8 +1,8 @@
 <?php
 /**
- * Range slider field. Renders an HTML5 range input with optional min/max/step; stores a numeric value.
+ * Range slider field. Renders an HTML5 range input with min/max/step and a live value display.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -12,7 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Range slider field — <input type="range">.
- * Displays current value beside the slider.
+ * Displays the current numeric value live beside the slider.
+ * Stores a numeric value.
+ *
+ * @since 1.0.0
  */
 class SWFK_Field_Range extends SWFK_Field_Base {
 
@@ -24,28 +27,48 @@ class SWFK_Field_Range extends SWFK_Field_Base {
             'max'     => '100',
             'step'    => '1',
             'default' => '50',
-        ]);
+        ] );
     }
 
     public function render( string $meta_key, $value ): void {
-        $val = ( $value !== '' && $value !== null ) ? $value : $this->args['default'];
-        $uid = 'snfs-range-' . esc_attr( $meta_key );
+        $val      = ( $value !== '' && $value !== null ) ? $value : $this->args['default'];
+        $uid      = 'swfk-range-output-' . sanitize_html_class( $meta_key );
+        $min      = esc_attr( $this->args['min'] );
+        $max      = esc_attr( $this->args['max'] );
+        $step     = esc_attr( $this->args['step'] );
+        $val_esc  = esc_attr( $val );
+        $uid_esc  = esc_attr( $uid );
 
+        // The oninput attribute is safe: $uid_esc is sanitized above.
         $attrs = $this->build_attributes();
         $attrs['type']  = 'range';
         $attrs['id']    = $meta_key;
         $attrs['name']  = $meta_key;
-        $attrs['value'] = esc_attr( $val );
-        $attrs['min']   = $this->args['min'];
-        $attrs['max']   = $this->args['max'];
-        $attrs['step']  = $this->args['step'];
-        $attrs['oninput'] = 'document.getElementById("' . $uid . '").textContent=this.value';
-
-        echo '<div style="display:flex;align-items:center;gap:10px;">';
-        echo '<input ' . $this->attrs_to_string( $attrs ) . ' />';
-        echo '<span id="' . esc_attr( $uid ) . '">' . esc_html( $val ) . '</span>';
-        echo '</div>';
-
+        $attrs['value'] = $val_esc;
+        $attrs['min']   = $min;
+        $attrs['max']   = $max;
+        $attrs['step']  = $step;
+        // oninput is added separately in the HTML below to avoid attribute-value escaping issues.
+        unset( $attrs['oninput'] );
+        ?>
+        <div class="swfk-range-wrap">
+            <div class="swfk-range-track">
+                <?php $this->render_input( $attrs ); ?>
+            </div>
+            <span class="swfk-range-value" id="<?php echo esc_attr( $uid ); ?>">
+                <?php echo esc_html( $val ); ?>
+            </span>
+        </div>
+        <script>
+        (function() {
+            var inp = document.getElementById( <?php echo wp_json_encode( $meta_key ); ?> );
+            var out = document.getElementById( <?php echo wp_json_encode( $uid ); ?> );
+            if ( inp && out ) {
+                inp.addEventListener( 'input', function() { out.textContent = this.value; } );
+            }
+        })();
+        </script>
+        <?php
         if ( ! empty( $this->args['instructions'] ) ) {
             echo '<p class="description">' . esc_html( $this->args['instructions'] ) . '</p>';
         }

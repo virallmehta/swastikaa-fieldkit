@@ -1,9 +1,9 @@
 <?php
 /**
  * Post meta storage driver. Reads and writes field values using get_post_meta()
- * and update_post_meta() with the snfs_ key prefix.
+ * and update_post_meta() with the swfk_ key prefix.
  *
- * @package SwastiNexusFieldsStudio
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_Post_Meta_Storage implements SNFS_Storage_Interface {
+class SWFK_Post_Meta_Storage implements SWFK_Storage_Interface {
 
     public function get( string $key, ?int $id = null ):mixed {
         $post_id = $id ?? get_the_ID();  // Fallback to current post.

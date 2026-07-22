@@ -3,7 +3,7 @@
  * Main plugin orchestrator. Bootstraps core systems, registers the Field Group CPT,
  * auto-discovers fields, and manages activation/deactivation routines.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

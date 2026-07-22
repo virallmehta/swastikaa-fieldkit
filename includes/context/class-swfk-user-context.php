@@ -3,7 +3,7 @@
  * User context. Wraps a WP_User object and provides the correct user meta
  * storage driver for field value read/write operations.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

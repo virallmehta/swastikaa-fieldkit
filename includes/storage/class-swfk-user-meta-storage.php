@@ -1,9 +1,9 @@
 <?php
 /**
  * User meta storage driver. Reads and writes field values using get_user_meta()
- * and update_user_meta() with the snfs_ key prefix.
+ * and update_user_meta() with the swfk_ key prefix.
  *
- * @package SwastiNexusFieldsStudio
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class SNFS_User_Meta_Storage implements SNFS_Storage_Interface {
+class SWFK_User_Meta_Storage implements SWFK_Storage_Interface {
 
     public function get( string $key, ?int $id = null ): mixed {
         if ( ! $id ) return null;

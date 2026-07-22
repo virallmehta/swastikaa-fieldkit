@@ -3,7 +3,7 @@
  * Term context. Wraps a WP_Term object and provides the correct term meta
  * storage driver for field value read/write operations.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 

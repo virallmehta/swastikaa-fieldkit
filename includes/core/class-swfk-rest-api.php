@@ -1,10 +1,10 @@
 <?php
 /**
- * Exposes custom fields via the WordPress REST API.
+ * Exposes SwastiNexus Fields Studio custom fields via the WordPress REST API.
  * Registers REST fields for post types, taxonomies, and users based on
  * active field group location rules.
  *
- * @package SwastikaaFieldkit
+ * @package Swastikaa-Fieldkit
  * @since   1.0.0
  */
 
